@@ -24,6 +24,7 @@ import com.applandeo.materialcalendarview.EventDay;
 import com.applandeo.materialcalendarview.extensions.CalendarGridView;
 import com.applandeo.materialcalendarview.listeners.OnCalendarDayClickListener;
 import com.applandeo.materialcalendarview.listeners.OnDayClickListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.time.LocalDate;
 import java.time.YearMonth;
@@ -37,12 +38,15 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     private TextView monthText,yearText;
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
+    FloatingActionButton flbt1,flbt2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        flbt1 = findViewById(R.id.floatbt1);
+        flbt2 = findViewById(R.id.floatbt2);
         initWidgets();
         selectedDate = LocalDate.now();
         setMonthView();
@@ -135,7 +139,10 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         selectedDate = selectedDate.plusMonths(1);
         setMonthView();
     }
-
+    public void click(View view){
+        flbt1.setVisibility(View.VISIBLE);
+        flbt2.setVisibility(View.VISIBLE);
+    }
     @Override
     public void onItemClick(int position, String dayText)
     {
