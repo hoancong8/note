@@ -1,23 +1,36 @@
 package com.example.myapplication;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
 {
     private final ArrayList<String> daysOfMonth;
     private final OnItemListener onItemListener;
-
+    private LocalDate selectedDate;
+    private String month,year;
     public CalendarAdapter(ArrayList<String> daysOfMonth, OnItemListener onItemListener)
     {
         this.daysOfMonth = daysOfMonth;
         this.onItemListener = onItemListener;
+        selectedDate = LocalDate.now();
+    }
+    public CalendarAdapter(String year, String month, ArrayList<String> daysOfMonth, OnItemListener onItemListener) {
+        this.year = year;
+        this.month = month;
+        this.selectedDate = LocalDate.now();
+        this.onItemListener = onItemListener;
+        this.daysOfMonth = daysOfMonth;
     }
 
     @NonNull
@@ -35,8 +48,22 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder>
     public void onBindViewHolder(@NonNull CalendarViewHolder holder, int position)
     {
         holder.dayOfMonth.setText(daysOfMonth.get(position));
+        if(month.equals(monthFromDate(selectedDate))
+                && year.equals(yearFromDate(selectedDate))
+                && daysOfMonth.get(position).equals(String.valueOf(selectedDate.getDayOfMonth()))){
+            holder.linearLayout.setBackgroundResource(R.drawable.circle);
+        }
     }
-
+    private String monthFromDate(LocalDate date)
+    {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM");
+        return date.format(formatter);
+    }
+    private String yearFromDate(LocalDate date)
+    {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
+        return date.format(formatter);
+    }
     @Override
     public int getItemCount()
     {

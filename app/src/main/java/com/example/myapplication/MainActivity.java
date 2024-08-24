@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -33,7 +34,7 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity implements CalendarAdapter.OnItemListener
 {
-    private TextView monthYearText;
+    private TextView monthText,yearText;
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
 
@@ -50,15 +51,15 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     private void initWidgets()
     {
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
-        monthYearText = findViewById(R.id.monthYearTV);
+        monthText = findViewById(R.id.monthTV);
+        yearText = findViewById(R.id.YearTV);
     }
-
     private void setMonthView()
     {
-        monthYearText.setText(monthYearFromDate(selectedDate));
+        monthText.setText(monthFromDate(selectedDate));
+        yearText.setText(yearFromDate(selectedDate));
         ArrayList<String> daysInMonth = daysInMonthArray(selectedDate);
-
-        CalendarAdapter calendarAdapter = new CalendarAdapter(daysInMonth, this);
+        CalendarAdapter calendarAdapter = new CalendarAdapter(yearFromDate(selectedDate),monthFromDate(selectedDate),daysInMonth, this);
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getApplicationContext(), 7);
         calendarRecyclerView.setLayoutManager(layoutManager);
         calendarRecyclerView.setAdapter(calendarAdapter);
@@ -87,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
                 }
             }
         });
-
     }
 
     private ArrayList<String> daysInMonthArray(LocalDate date)
@@ -114,12 +114,16 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         return  daysInMonthArray;
     }
 
-    private String monthYearFromDate(LocalDate date)
+    private String monthFromDate(LocalDate date)
     {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM");
         return date.format(formatter);
     }
-
+    private String yearFromDate(LocalDate date)
+    {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy");
+        return date.format(formatter);
+    }
     public void previousMonthAction(View view)
     {
         selectedDate = selectedDate.minusMonths(1);
@@ -137,8 +141,10 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     {
         if(!dayText.equals(""))
         {
-            String message = "Selected Date " + dayText + " " + monthYearFromDate(selectedDate);
+            String message = "Selected Date " + dayText + " " + monthFromDate(selectedDate) + yearFromDate(selectedDate);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+            Intent intent = new Intent(MainActivity.this,MainActivity2.class);
+            startActivity(intent);
         }
     }
 }
