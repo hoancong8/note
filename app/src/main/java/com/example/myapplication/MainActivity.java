@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,8 +39,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     private TextView monthText,yearText;
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
-    FloatingActionButton flbt1,flbt2;
-
+    private FloatingActionButton flbt1,flbt2;
+    private LinearLayout linearLayout;
+    private TextView txtfl1,txtfl2;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -47,6 +49,9 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         setContentView(R.layout.activity_main);
         flbt1 = findViewById(R.id.floatbt1);
         flbt2 = findViewById(R.id.floatbt2);
+        txtfl1 = findViewById(R.id.txtflbt1);
+        txtfl2 = findViewById(R.id.txtflbt2);
+        linearLayout = findViewById(R.id.lnlo);
         initWidgets();
         selectedDate = LocalDate.now();
         setMonthView();
@@ -139,10 +144,33 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
         selectedDate = selectedDate.plusMonths(1);
         setMonthView();
     }
+    private boolean check=false;
     public void click(View view){
-        flbt1.setVisibility(View.VISIBLE);
-        flbt2.setVisibility(View.VISIBLE);
+
+        if(check==false){
+            flbt1.setVisibility(View.VISIBLE);
+            flbt2.setVisibility(View.VISIBLE);
+            linearLayout.setVisibility(View.VISIBLE);
+            txtfl1.setVisibility(View.VISIBLE);
+            txtfl2.setVisibility(View.VISIBLE);
+            check = true;
+        }
+        else {
+            flbt1.setVisibility(View.GONE);
+            flbt2.setVisibility(View.GONE);
+            linearLayout.setVisibility(View.GONE);
+            txtfl1.setVisibility(View.GONE);
+            txtfl2.setVisibility(View.GONE);
+            check = false;
+        }
+
     }
+
+    public void clickAddNote(View view) {
+        Intent intent = new Intent(MainActivity.this,MainActivity2.class);
+        startActivity(intent);
+    }
+
     @Override
     public void onItemClick(int position, String dayText)
     {

@@ -4,7 +4,13 @@
         <!-- Customize your light theme here. -->
          <item name="colorPrimary">#FFFFFF</item>
         <item name="android:background">#FFFFFF</item>
+        <item name="fabCustomSize">60dp</item>
     </style>
+    <style name="AppTheme" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="fabCustomSize">50dp</item>
+
+    </style>
+
 
     <style name="Theme.MyApplication" parent="Base.Theme.MyApplication" />
 </resources>

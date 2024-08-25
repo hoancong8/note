@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".MainActivity">
 
     <LinearLayout
@@ -34,8 +34,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="8"
                 android:paddingEnd="10dp"
+                android:text="8"
                 android:textAlignment="textEnd"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
@@ -140,7 +140,6 @@
             android:layout_height="match_parent">
 
 
-
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/calendarRecyclerView"
                 android:layout_width="match_parent"
@@ -148,42 +147,74 @@
         </RelativeLayout>
 
 
-
     </LinearLayout>
+
     <LinearLayout
+        android:id="@+id/lnlo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="bottom"
-        android:visibility="gone"
-        android:focusable="true"
-        android:clickable="true"
         android:background="#B3FFFFFF"
-        >
-    </LinearLayout>
+        android:clickable="true"
+        android:focusable="true"
+        android:gravity="bottom"
+        android:orientation="vertical"
+        android:onClick="click"
+        android:visibility="gone"></LinearLayout>
+
+
+
+
+
+    <TextView
+        android:id="@+id/txtflbt1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Thêm ghi chú"
+        android:layout_toLeftOf="@+id/floatbt1"
+        android:layout_above="@+id/floatbt2"
+        android:textStyle="bold"
+        android:layout_margin="15dp"
+        android:fontFamily="monospace"
+        android:visibility="gone"
+        />
+    <TextView
+        android:id="@+id/txtflbt2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tất cả ghi chú "
+        android:fontFamily="monospace"
+        android:layout_toLeftOf="@+id/floatbt2"
+        android:layout_above="@+id/floatbt"
+        android:textStyle="bold"
+        android:layout_margin="15dp"
+        android:visibility="gone"
+        />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatbt1"
+        style="@style/AppTheme"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/floatbt2"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp"
+        android:layout_marginEnd="13dp"
         android:backgroundTint="#FFFFFF"
-        android:src="@drawable/baseline_add_24"
-        android:visibility="gone"/>
+        android:onClick="clickAddNote"
+        android:src="@drawable/baseline_note_add_24"
+        android:visibility="gone" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatbt2"
-        android:layout_width="240dp"
-        android:layout_height="140dp"
+        style="@style/AppTheme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_above="@+id/floatbt"
         android:layout_alignParentEnd="true"
-        android:layout_marginEnd="10dp"
         android:layout_marginTop="10dp"
+        android:layout_marginEnd="13dp"
         android:backgroundTint="#FFFFFF"
-        android:scaleType="center"
-        android:src="@drawable/baseline_add_24"
-        android:visibility="visible"
-        />
+        android:onClick="click"
+        android:src="@drawable/baseline_event_note_24"
+        android:visibility="gone" />
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatbt"
         android:layout_width="wrap_content"

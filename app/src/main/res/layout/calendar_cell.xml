@@ -28,7 +28,6 @@
             android:textStyle="normal" />
 
     </LinearLayout>
-
     <TextView
         android:id="@+id/note"
         android:layout_width="wrap_content"
