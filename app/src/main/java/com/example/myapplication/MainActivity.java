@@ -163,7 +163,6 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
             txtfl2.setVisibility(View.GONE);
             check = false;
         }
-
     }
 
     public void clickAddNote(View view) {
@@ -174,9 +173,11 @@ public class MainActivity extends AppCompatActivity implements CalendarAdapter.O
     @Override
     public void onItemClick(int position, String dayText)
     {
+        Calendar calendar = Calendar.getInstance();
         if(!dayText.equals(""))
         {
-            String message = "Selected Date " + dayText + " " + monthFromDate(selectedDate) + yearFromDate(selectedDate);
+            calendar.set(Integer.parseInt(yearFromDate(selectedDate)),Integer.parseInt(monthFromDate(selectedDate))-1,Integer.parseInt(dayText));
+            String message = "Selected Date " + String.valueOf(calendar.get(Calendar.DAY_OF_WEEK)) + dayText + " " + monthFromDate(selectedDate) + yearFromDate(selectedDate);
             Toast.makeText(this, message, Toast.LENGTH_LONG).show();
             Intent intent = new Intent(MainActivity.this,MainActivity2.class);
             startActivity(intent);
