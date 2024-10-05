@@ -1,9 +1,12 @@
 package com.example.myapplication;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -48,6 +51,19 @@ public class NoteListAdapter2 extends RecyclerView.Adapter<NoteListAdapter2.View
                 itemClickListNote2.onItemClickNoteList2(note);
             }
         });
+        holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    // Nếu CheckBox được chọn, bật gạch ngang
+                    holder.title.setPaintFlags( holder.title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+                } else {
+                    // Nếu CheckBox không được chọn, tắt gạch ngang
+                    holder.title.setPaintFlags( holder.title.getPaintFlags() & ~Paint.STRIKE_THRU_TEXT_FLAG);
+                }
+            }
+        });
+
     }
     @Override
     public int getItemCount() {
@@ -57,8 +73,10 @@ public class NoteListAdapter2 extends RecyclerView.Adapter<NoteListAdapter2.View
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView title,clock;
         private LinearLayout linearLayout;
+        private CheckBox checkBox;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            checkBox = itemView.findViewById(R.id.checkb);
             linearLayout = itemView.findViewById(R.id.linearLayout);
             title = itemView.findViewById(R.id.title);
             clock = itemView.findViewById(R.id.clock);
