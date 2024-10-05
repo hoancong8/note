@@ -73,8 +73,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
         // Áp dụng các thay đổi từ DiffUtil
         diffResult.dispatchUpdatesTo(this);
     }
-
-
     @NonNull
     @Override
     public CalendarViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

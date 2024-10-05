@@ -15,6 +15,7 @@ import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
     private boolean check = false;
     private MyDbSqlite myDbSqlite;
     private List<Note> list;
+    private ImageButton imgbt;
     private DateTimeFormatter formatter1;
     private DateTimeFormatter formatter2;
     @Override
@@ -102,6 +104,13 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
                 nextMonthAction();
             }
         }));
+        imgbt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selectedDate = LocalDate.now();
+                setMonthView();
+            }
+        });
     }
     public List<Note> getData() {
         list = new ArrayList<>();
@@ -151,6 +160,7 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
             dialog.dismiss();
         });
         dialog.show();
+
     }
     private void initWidgets() {
         gestureDetector = new GestureDetector(this, new SwipeGestureListener(this));
@@ -167,6 +177,7 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
         formatter1 = DateTimeFormatter.ofPattern("MM");
         formatter2 = DateTimeFormatter.ofPattern("yyyy");
         myDbSqlite  = new MyDbSqlite(this);
+        imgbt = findViewById(R.id.reset);
     }
 
     private void setMonthView() {
