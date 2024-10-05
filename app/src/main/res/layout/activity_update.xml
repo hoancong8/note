@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity2">
+    tools:context=".UpdateActivity">
+
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -29,11 +30,11 @@
             android:layout_height="40dp"
             android:layout_weight="6.5"/>
         <Button
-            android:id="@+id/save"
+            android:id="@+id/update"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="2.5"
-            android:text="Lưu"
+            android:text="Sửa"
             android:onClick="save"
             android:fontFamily="@font/roboto_regular"
             android:backgroundTint="@color/green"
@@ -116,7 +117,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="9:00"
-
+            android:onClick="clock"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:textAlignment="textEnd"
@@ -157,5 +158,6 @@
         android:drawableLeft="@drawable/baseline_edit_note_24"
         app:layout_constraintTop_toBottomOf="@+id/line2"
         />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

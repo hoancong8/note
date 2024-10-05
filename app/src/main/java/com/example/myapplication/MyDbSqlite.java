@@ -9,16 +9,15 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 
-import java.util.Calendar;
-import java.util.Date;
 
 public class MyDbSqlite extends SQLiteOpenHelper {
-    private Context context;
+    private final Context context;
     private static final String COLUMN_ID = "iId";
     private static final String COLUMN_TITLE = "sTitle";
     private static final String COLUMN_DETAIL = "sDetail";
     private static final String COLUMN_STATUS = "iStatus";
     private static final String COLUMN_DATE = "dDate";
+    private static final String COLUMN_CLOCK = "sClock";
     private static final String COLUMN_REPEAT ="iRepeat";
     private static final String TABLE_NAME = "Note";
     private static final String Query_cr_table="CREATE TABLE " + TABLE_NAME
@@ -28,7 +27,8 @@ public class MyDbSqlite extends SQLiteOpenHelper {
             + COLUMN_DETAIL + " TEXT, "
             + COLUMN_STATUS + " INT DEFAULT 0, "
             + COLUMN_REPEAT + " INT DEFAULT 0, "
-            + COLUMN_DATE + " DATETIME);";
+            + COLUMN_DATE + " DATETIME, "
+            + COLUMN_CLOCK + " TEXT);";
     private static final String DATABASE_NAME = "mynote.db";
     private static final int DATABASE_VERSION = 1;
     public MyDbSqlite(@Nullable Context context) {
@@ -46,10 +46,7 @@ public class MyDbSqlite extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
-    public void convertTime(){
-
-    }
-    public void addNote(String title, String detail, int status,int repeat, String date){
+    public void addNote(String title, String detail, int status,int repeat,String clock, String date){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_TITLE,title);
@@ -57,6 +54,8 @@ public class MyDbSqlite extends SQLiteOpenHelper {
         cv.put(COLUMN_STATUS,status);
         cv.put(COLUMN_REPEAT,repeat);
         cv.put(COLUMN_DATE, date);
+        cv.put(COLUMN_CLOCK,clock);
+
         long result = db.insert(TABLE_NAME,null,cv);
         if(result == -1){
             Toast.makeText(context,"Thêm thất bại",Toast.LENGTH_SHORT).show();
@@ -67,17 +66,46 @@ public class MyDbSqlite extends SQLiteOpenHelper {
     }
 
 
+    public void updateNote(int id, String title, String content, String date, String clock ,String status,String repeat) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+        cv.put(COLUMN_TITLE,title);
+        cv.put(COLUMN_DETAIL,content);
+        cv.put(COLUMN_STATUS,status);
+        cv.put(COLUMN_REPEAT,repeat);
+        cv.put(COLUMN_DATE, date);
+        cv.put(COLUMN_CLOCK,clock);
+        // Cập nhật Note với id tương ứng
 
+        long result = db.update(TABLE_NAME, cv, COLUMN_ID+"=?", new String[]{String.valueOf(id)});
+
+        if (result > 0) {
+            Toast.makeText(context, "cập nhật thành công", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Update failed", Toast.LENGTH_SHORT).show();
+        }
+    }
 //
-//    public Cursor sreach_el(String el){
-//        String query="SELECT * FROM " + TABLE_NAME +" WHERE " + COLUMN_EN + "= " + "'" +el+"'";
-//        SQLiteDatabase db= this.getWritableDatabase();
-//        Cursor cursor=null;
-//        if(db != null){
-//            cursor= db.rawQuery(query,null);
-//        }
-//        return cursor;
-//    }
+    public Cursor sreachByDay(String date){
+        String query="SELECT * FROM " + TABLE_NAME +" WHERE " + COLUMN_DATE + "= " + "'" +date+"'";
+        SQLiteDatabase db= this.getWritableDatabase();
+        Cursor cursor=null;
+        if(db != null){
+            cursor= db.rawQuery(query,null);
+        }
+        return cursor;
+    }
+    public Cursor sreachByMonthYear(String month,String year){
+//        String query = "SELECT * FROM "+TABLE_NAME+" WHERE strftime('%m', " + COLUMN_DATE + ") = " + "'" + month + "'" + " AND strftime('%Y', " + COLUMN_DATE + ") = "+"'" +year+"'";
+        String query1 = "SELECT * FROM Note WHERE substr(dDate, 4, 2) = '" + month + "' AND substr(dDate, 7, 4) = '" + year + "';";
+
+        SQLiteDatabase db= this.getWritableDatabase();
+        Cursor cursor=null;
+        if(db != null){
+            cursor= db.rawQuery(query1,null);
+        }
+        return cursor;
+    }
 //    public Cursor deleteByEl(String el){
 //        String query="DELETE FROM " + TABLE_NAME +" WHERE " + COLUMN_EN + "= " + "'" +el+"'";
 //        SQLiteDatabase db= this.getWritableDatabase();

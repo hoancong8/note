@@ -2,70 +2,78 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relative"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity">
-
     <LinearLayout
+        android:id="@+id/standbyScreen"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
-
+        android:gravity="center"
+        android:orientation="vertical"
+        android:elevation="10dp"
+        android:visibility="gone">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/calendar_note"/>
+    </LinearLayout>
+    <Toolbar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/tb"
+        android:padding="0dp"
+        android:elevation="2dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
             android:orientation="horizontal">
-
-            <Button
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:onClick="previousMonthAction"
-                android:text="@string/back"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/monthTV"
                 android:layout_width="0dp"
+                android:layout_weight="1.7"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:paddingEnd="10dp"
-                android:text="8"
                 android:fontFamily="@font/roboto_regular"
-                android:textAlignment="textEnd"
+                android:paddingStart="0dp"
+                android:text="8"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
 
             <TextView
-                android:fontFamily="@font/roboto_regular"
                 android:id="@+id/YearTV"
                 android:layout_width="0dp"
+                android:layout_weight="1"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.7"
+                android:fontFamily="@font/roboto_regular"
                 android:text="2024"
-                android:textAlignment="textStart"
+                android:layout_marginStart="5dp"
                 android:textColor="@color/black"
                 android:textSize="20sp" />
-
-            <Button
+            <View
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:background="@null"
-                android:onClick="nextMonthAction"
-                android:text="@string/forward"
-                android:fontFamily="@font/roboto_regular"
-                android:textColor="@color/black"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
+                android:layout_weight="4"
+                android:layout_height="1dp"/>
+           <ImageButton
+               android:layout_width="0dp"
+               android:layout_weight="1"
+               android:layout_height="wrap_content"
+               android:src="@drawable/baseline_replay_24"
+               android:background="#00000000"
+               android:layout_gravity="center"/>
         </LinearLayout>
+
+    </Toolbar>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="2dp"
+        android:layout_below="@+id/tb">
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -76,8 +84,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/roboto_regular"
                 android:text="CN"
-                android:fontFamily="@font/roboto_regular"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
                 android:textSize="16sp" />
@@ -86,8 +94,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/roboto_regular"
                 android:text="Thứ 2"
-                android:fontFamily="@font/roboto_regular"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
                 android:textSize="16sp" />
@@ -96,8 +104,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/roboto_regular"
                 android:text="Thứ 3"
-                android:fontFamily="@font/roboto_regular"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
                 android:textSize="16sp" />
@@ -106,8 +114,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/roboto_regular"
                 android:text="Thứ 4"
-                android:fontFamily="@font/roboto_regular"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
                 android:textSize="16sp" />
@@ -116,8 +124,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/roboto_regular"
                 android:text="Thứ 5"
-                android:fontFamily="@font/roboto_regular"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
                 android:textSize="16sp" />
@@ -126,8 +134,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:fontFamily="@font/roboto_regular"
                 android:text="Thứ 6"
-                android:fontFamily="@font/roboto_regular"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
                 android:textSize="16sp" />
@@ -136,8 +144,8 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Thứ 7"
                 android:fontFamily="@font/roboto_regular"
+                android:text="Thứ 7"
                 android:textAlignment="center"
                 android:textColor="@color/gray"
                 android:textSize="16sp" />
@@ -145,16 +153,11 @@
 
         </LinearLayout>
 
-        <RelativeLayout
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/calendarRecyclerView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/calendarRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-        </RelativeLayout>
+            android:layout_height="match_parent" />
 
 
     </LinearLayout>
@@ -167,38 +170,35 @@
         android:clickable="true"
         android:focusable="true"
         android:gravity="bottom"
-        android:orientation="vertical"
         android:onClick="click"
+        android:orientation="vertical"
         android:visibility="gone"></LinearLayout>
-
-
-
 
 
     <TextView
         android:id="@+id/txtflbt1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Thêm ghi chú"
-        android:layout_toLeftOf="@+id/floatbt1"
         android:layout_above="@+id/floatbt2"
-        android:textStyle="bold"
         android:layout_margin="15dp"
+        android:layout_toLeftOf="@+id/floatbt1"
         android:fontFamily="@font/roboto_regular"
-        android:visibility="gone"
-        />
+        android:text="Thêm ghi chú"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
     <TextView
         android:id="@+id/txtflbt2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Tất cả ghi chú "
-        android:fontFamily="@font/roboto_regular"
-        android:layout_toLeftOf="@+id/floatbt2"
         android:layout_above="@+id/floatbt"
-        android:textStyle="bold"
         android:layout_margin="15dp"
-        android:visibility="gone"
-        />
+        android:layout_toLeftOf="@+id/floatbt2"
+        android:fontFamily="@font/roboto_regular"
+        android:text="Tất cả ghi chú "
+        android:textStyle="bold"
+        android:visibility="gone" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatbt1"
         style="@style/AppTheme"
@@ -222,9 +222,10 @@
         android:layout_marginTop="10dp"
         android:layout_marginEnd="13dp"
         android:backgroundTint="#FFFFFF"
-        android:onClick="click"
+        android:onClick="allNote"
         android:src="@drawable/baseline_event_note_24"
         android:visibility="gone" />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatbt"
         android:layout_width="wrap_content"
