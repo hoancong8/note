@@ -38,6 +38,7 @@ public class MainActivity2 extends AppCompatActivity {
     private LocalDate localDate;
     private Calendar calendar;
     private boolean updateUI = false;
+    private DateTimeFormatter formatter,formatter1;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,7 +46,16 @@ public class MainActivity2 extends AppCompatActivity {
         editTitle = findViewById(R.id.editTitle);
         detailnote = findViewById(R.id.detailnote);
         clock = findViewById(R.id.clock);
+        date = findViewById(R.id.selcetday);
         calendar = Calendar.getInstance();
+        localDate = LocalDate.now();
+        formatter = DateTimeFormatter.ofPattern("E,dd/MM/yyyy");
+        formatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        date.setText(localDate.format(formatter));
+        date1= localDate.format(formatter1);
+
+
+
         clock.setOnClickListener(v -> {
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
             int minute1 = calendar.get(Calendar.MINUTE);
@@ -65,7 +75,7 @@ public class MainActivity2 extends AppCompatActivity {
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
         }
-        date = findViewById(R.id.selcetday);
+
     }
     public void back(View view){
         onBackPressed();
@@ -81,8 +91,7 @@ public class MainActivity2 extends AppCompatActivity {
 //            Calendar selectedDate = Calendar.getInstance();
 //            selectedDate.set(year, month, dayOfMonth);
             localDate = LocalDate.of(year,month+1,dayOfMonth);
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E,dd/MM/yyyy");
-            DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//            DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             date1= localDate.format(formatter1);
             date.setText(localDate.format(formatter));
         },2024,localDate1.getMonthValue() - 1, localDate1.getDayOfMonth());
@@ -98,9 +107,9 @@ public class MainActivity2 extends AppCompatActivity {
             myDbSqlite.addNote(editTitle.getText().toString().trim(), detailnote.getText().toString().trim(), 0, 0,clock.getText().toString().trim(),date1);
             updateUI = true;
         }
-        Intent resultIntent = new Intent();
-        resultIntent.putExtra("updateUI", updateUI);
-        setResult(RESULT_FIRST_USER, resultIntent); // Sử dụng RESULT_FIRST_USER
+//        Intent resultIntent = new Intent();
+//        resultIntent.putExtra("updateUI", updateUI);
+//        setResult(RESULT_FIRST_USER, resultIntent); // Sử dụng RESULT_FIRST_USER
 
 //        getData();
         Intent intent = new Intent(this, MainActivity.class);

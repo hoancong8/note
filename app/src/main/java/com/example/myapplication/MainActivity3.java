@@ -20,6 +20,8 @@ import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -33,6 +35,7 @@ public class MainActivity3 extends AppCompatActivity implements iSelectListener.
     private DateTimeFormatter formatter;
     private ImageView imageView;
     private NoteListAdapter2 noteListAdapter2;
+    private FloatingActionButton floatingActionButton;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,7 @@ public class MainActivity3 extends AppCompatActivity implements iSelectListener.
         imageView = findViewById(R.id.imageView);
         emptyText = findViewById(R.id.emptyText);
         tvDay = findViewById(R.id.tvDay);
+        floatingActionButton = findViewById(R.id.addNote);
 
         Intent intent = getIntent();
         String value1 = intent.getStringExtra("key1");
@@ -51,6 +55,13 @@ public class MainActivity3 extends AppCompatActivity implements iSelectListener.
         formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         tvDay.setText("Lich biểu "+localDate.format(formatter));
         checkRCV();
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent1 = new Intent(MainActivity3.this,MainActivity2.class);
+                startActivity(intent1);
+            }
+        });
     }
     public void checkRCV(){
         if (sreachByDay(localDate.format(formatter))!= null){
