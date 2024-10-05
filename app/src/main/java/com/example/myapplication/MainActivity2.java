@@ -1,7 +1,5 @@
 package com.example.myapplication;
 
-import static android.text.format.DateUtils.getDayOfWeekString;
-
 import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -10,16 +8,14 @@ import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
-import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
@@ -102,15 +98,12 @@ public class MainActivity2 extends AppCompatActivity {
         myDbSqlite = new MyDbSqlite(MainActivity2.this);
         if (date1.isEmpty() || date1.equals("")){
 //            myDbSqlite.addNote(editTitle.getText().toString().trim(), detailnote.getText().toString().trim(), 0, 0, "0","0");
+            Toast.makeText(this, "khoong cos dux lieu", Toast.LENGTH_SHORT).show();
         }
         else {
             myDbSqlite.addNote(editTitle.getText().toString().trim(), detailnote.getText().toString().trim(), 0, 0,clock.getText().toString().trim(),date1);
             updateUI = true;
         }
-//        Intent resultIntent = new Intent();
-//        resultIntent.putExtra("updateUI", updateUI);
-//        setResult(RESULT_FIRST_USER, resultIntent); // Sử dụng RESULT_FIRST_USER
-
 //        getData();
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
