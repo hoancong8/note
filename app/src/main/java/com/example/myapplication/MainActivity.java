@@ -67,17 +67,22 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        selectedDate = LocalDate.now();
-        initWidgets();
-        setMonthView();
         linearLayout1 = findViewById(R.id.standbyScreen);
+        linearLayout1.setVisibility(View.VISIBLE);
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                // Ẩn TextView sau 3 giây
+                // Ẩn màn hình chờ sau 3 giây
                 linearLayout1.setVisibility(View.GONE);
+                // Chạy hàm setMonthView() để hiển thị nội dung chính
+                setMonthView();
             }
-        }, 3000);
+        }, 1500);
+        selectedDate = LocalDate.now();
+        initWidgets();
+//        setMonthView();
+        // Tải dữ liệu và khởi tạo giao diện bất đồng bộ
+
         monthText.setOnClickListener(v -> showMonthYearPickerDialog());
         yearText.setOnClickListener(v -> showMonthYearPickerDialog());
 
@@ -147,7 +152,7 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
         int month = java.util.Calendar.getInstance().get(Calendar.MONTH);
         yearPicker.setMinValue(1900);
         yearPicker.setMaxValue(9999);
-        monthPicker.setValue(month);
+        monthPicker.setValue(month+1);
         yearPicker.setValue(year);
         // Xử lý sự kiện khi nhấn OK
         btnOk.setOnClickListener(v -> {
