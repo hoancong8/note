@@ -106,6 +106,10 @@ public class MyDbSqlite extends SQLiteOpenHelper {
         }
         return cursor;
     }
+
+
+
+
 //    public Cursor deleteByEl(String el){
 //        String query="DELETE FROM " + TABLE_NAME +" WHERE " + COLUMN_EN + "= " + "'" +el+"'";
 //        SQLiteDatabase db= this.getWritableDatabase();
@@ -123,6 +127,16 @@ public class MyDbSqlite extends SQLiteOpenHelper {
         Cursor cursor=null;
         if(db != null){
             cursor= db.rawQuery(query,null);
+        }
+        return cursor;
+    }
+    public Cursor dataRecent(){
+//        String query="SELECT * FROM " + TABLE_NAME;
+//        Cursor cursor = db.rawQuery("SELECT * FROM my_table ORDER BY id DESC LIMIT 1", null);
+        SQLiteDatabase db= this.getWritableDatabase();
+        Cursor cursor=null;
+        if(db != null){
+            cursor= db.rawQuery("SELECT * FROM "+TABLE_NAME+" ORDER BY "+COLUMN_ID+" DESC LIMIT 1",null);
         }
         return cursor;
     }

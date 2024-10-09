@@ -85,13 +85,6 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
 
         monthText.setOnClickListener(v -> showMonthYearPickerDialog());
         yearText.setOnClickListener(v -> showMonthYearPickerDialog());
-
-//        calendarRecyclerView.setOnTouchListener((v, event) -> {
-//            if (event != null) {  // Đảm bảo sự kiện không null
-//                gestureDetector.onTouchEvent(event);
-//            }
-//            return true;
-//        });
         calendarRecyclerView.addOnItemTouchListener(new RecyclerViewTouchListener(this, calendarRecyclerView, new RecyclerViewTouchListener.ClickListener() {
             @Override
             public void onClick(View view, int position) {
@@ -320,8 +313,4 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
             startActivity(intent);
         }
     }
-
-
-
-
 }
