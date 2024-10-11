@@ -63,8 +63,12 @@ public class MainActivity2 extends AppCompatActivity {
         aSwitch = findViewById(R.id.switch1);
 
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        Intent serviceIntent = new Intent(this, AlarmService.class);
-        startService(serviceIntent);
+        if (!AlarmService.isService){
+            Intent serviceIntent = new Intent(this, AlarmService.class);
+            startService(serviceIntent);
+        }
+
+        Log.d("LOG0000000",String.valueOf(AlarmService.isService));
 
 
         yyyy =  calendar.get(Calendar.YEAR);
@@ -148,6 +152,7 @@ public class MainActivity2 extends AppCompatActivity {
             Log.d("LOG00000",String.valueOf(h+" "+m+" "+dd+" "+mm));
             setAlarm(yyyy,mm,dd,h,m,getDataRecent().getId());
         }
+
 //        getData();
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
@@ -212,8 +217,9 @@ public class MainActivity2 extends AppCompatActivity {
         }
 
         Intent intent = new Intent(this, AlarmReceiver.class);
+        intent.putExtra("title",getDataRecent().getTitle());
+        Log.d("TAG77777",getDataRecent().getTitle());
         pendingIntent = PendingIntent.getBroadcast(this, id, intent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             if (alarmManager.canScheduleExactAlarms()) {
                 alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);

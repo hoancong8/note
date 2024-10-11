@@ -7,12 +7,15 @@ import android.media.MediaPlayer;
 import android.os.PowerManager;
 import android.util.Log;
 
+
 public class AlarmReceiver extends BroadcastReceiver {
     private MediaPlayer mediaPlayer;
     @Override
     public void onReceive(Context context, Intent intent) {
         Intent serviceIntent = new Intent(context, AlarmService.class);
-        Log.d("TAG77777","BroadcastReceiver");
+        String title = intent.getStringExtra("title");
+        serviceIntent.putExtra("title1",title);
+        Log.d("TAG77777",title);
         PowerManager powerManager = (PowerManager) context.getSystemService(Context.POWER_SERVICE);
 
         // Yêu cầu WakeLock để bật màn hình và giữ nó sáng trong một thời gian
