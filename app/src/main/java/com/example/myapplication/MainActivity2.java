@@ -63,10 +63,12 @@ public class MainActivity2 extends AppCompatActivity {
         aSwitch = findViewById(R.id.switch1);
 
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-        if (!AlarmService.isService){
-            Intent serviceIntent = new Intent(this, AlarmService.class);
-            startService(serviceIntent);
-        }
+//        if (!AlarmService.isService){
+//            Intent serviceIntent = new Intent(this, AlarmService.class);
+//            serviceIntent.putExtra("title","0");
+////            startService(serviceIntent);
+//            startForegroundService(serviceIntent);
+//        }
 
         Log.d("LOG0000000",String.valueOf(AlarmService.isService));
 
@@ -106,16 +108,16 @@ public class MainActivity2 extends AppCompatActivity {
             new TimePickerDialog(MainActivity2.this, timeSetListener, hour, minute1, true).show();
         });
 
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            CharSequence name = "High Priority Channel";
-            String description = "This channel is used for important notifications";
-            int importance = NotificationManager.IMPORTANCE_HIGH; // Đặt mức độ quan trọng cao
-            NotificationChannel channel = new NotificationChannel("HIGH_PRIORITY_CHANNEL_ID", name, importance);
-            channel.setDescription(description);
-            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-            notificationManager.createNotificationChannel(channel);
-        }
+//
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            CharSequence name = "High Priority Channel";
+//            String description = "This channel is used for important notifications";
+//            int importance = NotificationManager.IMPORTANCE_HIGH; // Đặt mức độ quan trọng cao
+//            NotificationChannel channel = new NotificationChannel("HIGH_PRIORITY_CHANNEL_ID", name, importance);
+//            channel.setDescription(description);
+//            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+//            notificationManager.createNotificationChannel(channel);
+//        }
 
     }
     public void back(View view){
@@ -154,29 +156,29 @@ public class MainActivity2 extends AppCompatActivity {
         }
 
 //        getData();
-        Intent intent = new Intent(this, MainActivity.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "HIGH_PRIORITY_CHANNEL_ID")
-                .setSmallIcon(R.drawable.baseline_airplanemode_active_24)  // Biểu tượng nhỏ hiển thị trên thanh thông báo
-                .setContentTitle("Tiêu đề thông báo")        // Tiêu đề của thông báo
-                .setContentText("Nội dung của thông báo")    // Nội dung chi tiết của thông báo
-                .setPriority(NotificationCompat.PRIORITY_HIGH) // Độ ưu tiên cao
-                .setDefaults(Notification.DEFAULT_ALL)       // Áp dụng tất cả các kiểu mặc định (âm thanh, rung, đèn)
-                .setAutoCancel(true)
-                .setContentIntent(pendingIntent);
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //  ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
-            return;
-        }
-        notificationManager.notify(1, builder.build());
+//        Intent intent = new Intent(this, MainActivity.class);
+//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+//
+//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "HIGH_PRIORITY_CHANNEL_ID")
+//                .setSmallIcon(R.drawable.baseline_airplanemode_active_24)  // Biểu tượng nhỏ hiển thị trên thanh thông báo
+//                .setContentTitle("Tiêu đề thông báo")        // Tiêu đề của thông báo
+//                .setContentText("Nội dung của thông báo")    // Nội dung chi tiết của thông báo
+//                .setPriority(NotificationCompat.PRIORITY_HIGH) // Độ ưu tiên cao
+//                .setDefaults(Notification.DEFAULT_ALL)       // Áp dụng tất cả các kiểu mặc định (âm thanh, rung, đèn)
+//                .setAutoCancel(true)
+//                .setContentIntent(pendingIntent);
+//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+//        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+//            // TODO: Consider calling
+//            //  ActivityCompat#requestPermissions
+//            // here to request the missing permissions, and then overriding
+//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+//            //                                          int[] grantResults)
+//            // to handle the case where the user grants the permission. See the documentation
+//            // for ActivityCompat#requestPermissions for more details.
+//            return;
+//        }
+//        notificationManager.notify(1, builder.build());
     }
 
 
@@ -212,9 +214,9 @@ public class MainActivity2 extends AppCompatActivity {
         calendar.set(Calendar.SECOND, 0);
 
         // Kiểm tra nếu thời gian đã qua thì thêm 1 ngày
-        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
-            calendar.add(Calendar.DATE, 1);
-        }
+//        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
+//            calendar.add(Calendar.DATE, 1);
+//        }
 
         Intent intent = new Intent(this, AlarmReceiver.class);
         intent.putExtra("title",getDataRecent().getTitle());

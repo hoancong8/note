@@ -1,15 +1,19 @@
 package com.example.myapplication;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.Dialog;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -63,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
     private ImageButton imgbt;
     private DateTimeFormatter formatter1;
     private DateTimeFormatter formatter2;
+    private AlarmManager alarmManager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -109,6 +114,12 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
                 setMonthView();
             }
         });
+        if (!AlarmService.isService){
+            Intent serviceIntent = new Intent(this, AlarmService.class);
+            serviceIntent.putExtra("title","0");
+//            startService(serviceIntent);
+            startForegroundService(serviceIntent);
+        }
     }
     public List<Note> getData() {
         list = new ArrayList<>();
@@ -176,6 +187,8 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
         formatter2 = DateTimeFormatter.ofPattern("yyyy");
         myDbSqlite  = new MyDbSqlite(this);
         imgbt = findViewById(R.id.reset);
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        setDailyAlarm(1000);
     }
 
     private void setMonthView() {
@@ -313,4 +326,43 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
             startActivity(intent);
         }
     }
+
+    private void setDailyAlarm(int id) {
+        // Lấy ngày hiện tại
+        Calendar calendar = Calendar.getInstance();
+
+        // Đặt giá trị ngày, tháng, năm
+        calendar.set(Calendar.YEAR, calendar.get(Calendar.YEAR)); // Năm hiện tại
+        calendar.set(Calendar.MONTH, calendar.get(Calendar.MONTH)); // Tháng hiện tại
+        calendar.set(Calendar.DAY_OF_MONTH, calendar.get(Calendar.DAY_OF_MONTH)); // Ngày hiện tại
+
+        // Đặt giờ và phút cho báo thức
+        calendar.set(Calendar.HOUR_OF_DAY, 0); // 00:00
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        // Kiểm tra nếu thời gian đã qua thì thêm 1 ngày
+        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
+            calendar.add(Calendar.DATE, 1);
+        }
+
+        Intent intent = new Intent(this, AlarmReceiver.class);
+        intent.setAction("ACTION_UPDATE_WIDGET");
+//        Log.d("TAG77777", getDataRecent().getTitle());
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, id, intent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            if (alarmManager.canScheduleExactAlarms()) {
+                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                Toast.makeText(MainActivity.this, "Báo thức đã được đặt cho 00:00 mỗi ngày", Toast.LENGTH_SHORT).show();
+            } else {
+                Intent intent1 = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
+                startActivity(intent1);
+            }
+        } else {
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+            Toast.makeText(MainActivity.this, "Báo thức đã được đặt cho 00:00 mỗi ngày", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 }
