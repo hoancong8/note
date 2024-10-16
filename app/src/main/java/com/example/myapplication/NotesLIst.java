@@ -59,6 +59,7 @@ public class NotesLIst extends AppCompatActivity implements iSelectListener.onIt
             if (!noteMap.containsKey(e.getDate())) {
                 noteMap.put(e.getDate(), new ArrayList<Note>());
             }
+            //f
             // Thêm Note vào danh sách của ngày đó
             noteMap.get(e.getDate()).add(e);
 
