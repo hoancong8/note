@@ -4,7 +4,7 @@ public class Note {
     private String date;
     private String title;
     private String contentTitle,status,clock;
-    private int id;
+    private int id,status1;
 
     public Note(String date, String title, String contentTitle, String status, int id) {
         this.date = date;
@@ -12,6 +12,25 @@ public class Note {
         this.contentTitle = contentTitle;
         this.status = status;
         this.id = id;
+    }
+
+    public Note(String date, String title, String contentTitle, String status, String clock, int id, int status1) {
+        this.date = date;
+        this.title = title;
+        this.contentTitle = contentTitle;
+        this.status = status;
+        this.clock = clock;
+        this.id = id;
+        this.status1 = status1;
+    }
+
+    public Note(String date, String title, String contentTitle, String clock, int id, int status1) {
+        this.date = date;
+        this.title = title;
+        this.contentTitle = contentTitle;
+        this.clock = clock;
+        this.id = id;
+        this.status1 = status1;
     }
 
     public Note(String date, String title, String contentTitle, int id, String clock) {
@@ -24,6 +43,14 @@ public class Note {
 
     public String getClock() {
         return clock;
+    }
+
+    public int getStatus1() {
+        return status1;
+    }
+
+    public void setStatus1(int status1) {
+        this.status1 = status1;
     }
 
     public void setClock(String clock) {

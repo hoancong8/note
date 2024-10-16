@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
@@ -24,12 +25,30 @@ public class NotesLIst extends AppCompatActivity implements iSelectListener.onIt
     private MyDbSqlite myDbSqlite;
     private List<Note> list;
     private NotesListAdapter notesListAdapter;
+    private List<Integer> ids1;
+    private boolean isCheck = false;
+    private Button trash;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.noteslist);
         list = new ArrayList<>();
+        ids1 = new ArrayList<>();
+        trash = findViewById(R.id.trash);
         handle();
+        trash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i: ids1) {
+                    Log.d("ids111","soos laf " + String.valueOf(i));
+                    if ( myDbSqlite.deleteById(i)){
+                        handle();
+                        notesListAdapter.notifyDataSetChanged();
+                    }
+
+                }
+            }
+        });
     }
     public void handle(){
         HashMap<String, List<Note>> noteMap = new HashMap<>();
@@ -87,8 +106,9 @@ public class NotesLIst extends AppCompatActivity implements iSelectListener.onIt
                 list.add(new Note(cursor.getString(5),
                         cursor.getString(1),
                         cursor.getString(2),
+                        cursor.getString(6),
                         cursor.getInt(0),
-                        cursor.getString(6))
+                        cursor.getInt(3))
                 );
             }
         }
@@ -117,7 +137,21 @@ public class NotesLIst extends AppCompatActivity implements iSelectListener.onIt
         intent.putExtra("title", note.getTitle());
         intent.putExtra("clock", note.getClock());
         startActivity(intent);
+
 //        Toast.makeText(this, String.valueOf(note.getId()), Toast.LENGTH_SHORT).show();
+
+    }
+
+    @Override
+    public void onItemCheckClick(List<Integer> ids,boolean isCheck) {
+        ids1 = ids;
+
+        for (int i:ids1) {
+            Log.d("k123",String.valueOf(i));
+        }
+        if (isCheck){
+            trash.setVisibility(View.VISIBLE);
+        }
 
     }
 }

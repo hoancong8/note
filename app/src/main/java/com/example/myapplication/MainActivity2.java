@@ -7,6 +7,8 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.TimePickerDialog;
+import android.appwidget.AppWidgetManager;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 
@@ -26,10 +28,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
+import androidx.work.Data;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.WorkManager;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 
 public class MainActivity2 extends AppCompatActivity {
@@ -70,7 +77,7 @@ public class MainActivity2 extends AppCompatActivity {
 //            startForegroundService(serviceIntent);
 //        }
 
-        Log.d("LOG0000000",String.valueOf(AlarmService.isService));
+
 
 
         yyyy =  calendar.get(Calendar.YEAR);
@@ -152,33 +159,18 @@ public class MainActivity2 extends AppCompatActivity {
             myDbSqlite.addNote(editTitle.getText().toString().trim(), detailnote.getText().toString().trim(), 0, 0,clock.getText().toString().trim(),date1);
             updateUI = true;
             Log.d("LOG00000",String.valueOf(h+" "+m+" "+dd+" "+mm));
-            setAlarm(yyyy,mm,dd,h,m,getDataRecent().getId());
+            scheduleAlarmWork(yyyy,mm,dd,h,m,getDataRecent().getId());
+//            scheduleAlarmWork();
+            //update widget
+            Intent intent = new Intent(this, NewAppWidget.class);
+            intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+            // Gửi cùng với danh sách ID của widget để cập nhật
+            int[] ids = AppWidgetManager.getInstance(getApplication())
+                    .getAppWidgetIds(new ComponentName(getApplication(), NewAppWidget.class));
+            intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+            // Gửi Broadcast
+            sendBroadcast(intent);
         }
-
-//        getData();
-//        Intent intent = new Intent(this, MainActivity.class);
-//        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
-//
-//        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "HIGH_PRIORITY_CHANNEL_ID")
-//                .setSmallIcon(R.drawable.baseline_airplanemode_active_24)  // Biểu tượng nhỏ hiển thị trên thanh thông báo
-//                .setContentTitle("Tiêu đề thông báo")        // Tiêu đề của thông báo
-//                .setContentText("Nội dung của thông báo")    // Nội dung chi tiết của thông báo
-//                .setPriority(NotificationCompat.PRIORITY_HIGH) // Độ ưu tiên cao
-//                .setDefaults(Notification.DEFAULT_ALL)       // Áp dụng tất cả các kiểu mặc định (âm thanh, rung, đèn)
-//                .setAutoCancel(true)
-//                .setContentIntent(pendingIntent);
-//        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-//        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
-//            // TODO: Consider calling
-//            //  ActivityCompat#requestPermissions
-//            // here to request the missing permissions, and then overriding
-//            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-//            //                                          int[] grantResults)
-//            // to handle the case where the user grants the permission. See the documentation
-//            // for ActivityCompat#requestPermissions for more details.
-//            return;
-//        }
-//        notificationManager.notify(1, builder.build());
     }
 
 
@@ -200,7 +192,7 @@ public class MainActivity2 extends AppCompatActivity {
         return note;
     }
 
-    private void setAlarm(int yyyy, int mm, int dd, int h, int m, int id) {
+    private void scheduleAlarmWork(int yyyy, int mm, int dd, int h, int m, int id) {
         Calendar calendar = Calendar.getInstance();
 
         // Đặt giá trị ngày, tháng, năm
@@ -212,28 +204,18 @@ public class MainActivity2 extends AppCompatActivity {
         calendar.set(Calendar.HOUR_OF_DAY, h); // h lấy từ TimePicker
         calendar.set(Calendar.MINUTE, m); // m lấy từ TimePicker
         calendar.set(Calendar.SECOND, 0);
+        long time = calendar.getTimeInMillis()-System.currentTimeMillis();
 
-        // Kiểm tra nếu thời gian đã qua thì thêm 1 ngày
-//        if (calendar.getTimeInMillis() < System.currentTimeMillis()) {
-//            calendar.add(Calendar.DATE, 1);
-//        }
+        Data data = new Data.Builder()
+                .putInt("id",id).putString("title",getDataRecent().getTitle())
+                .build();
 
-        Intent intent = new Intent(this, AlarmReceiver.class);
-        intent.putExtra("title",getDataRecent().getTitle());
-        Log.d("TAG77777",getDataRecent().getTitle());
-        pendingIntent = PendingIntent.getBroadcast(this, id, intent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            if (alarmManager.canScheduleExactAlarms()) {
-                alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                Toast.makeText(MainActivity2.this, "Báo thức đã được đặt", Toast.LENGTH_SHORT).show();
-            } else {
-                Intent intent1 = new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM);
-                startActivity(intent1);
-            }
-        } else {
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-            Toast.makeText(MainActivity2.this, "Báo thức đã được đặt", Toast.LENGTH_SHORT).show();
-        }
+
+        WorkManager workManager = WorkManager.getInstance(this);
+        OneTimeWorkRequest workRequest = new OneTimeWorkRequest.Builder(AlarmWorker.class)
+                .setInitialDelay(time, TimeUnit.MILLISECONDS)
+                .setInputData(data)
+                .build();
+        workManager.enqueue(workRequest);
     }
-
 }

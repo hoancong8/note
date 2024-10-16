@@ -78,20 +78,22 @@ public class MainActivity3 extends AppCompatActivity implements iSelectListener.
             recyclerView.setVisibility(View.GONE);
             imageView.setVisibility(View.VISIBLE);
             emptyText.setVisibility(View.VISIBLE);
-            Toast.makeText(this, "not data"+localDate.format(formatter), Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "not data"+localDate.format(formatter), Toast.LENGTH_SHORT).show();
         }
         else
         {
             recyclerView.setVisibility(View.VISIBLE);
             imageView.setVisibility(View.GONE);
             emptyText.setVisibility(View.GONE);
-            Toast.makeText(this, "get date", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "get date", Toast.LENGTH_SHORT).show();
             while(cursor.moveToNext()){
                 noteList.add(new Note(cursor.getString(5),
                         cursor.getString(1),
                         cursor.getString(2),
+                        cursor.getString(6),
                         cursor.getInt(0),
-                        cursor.getString(6)));
+                        cursor.getInt(3)
+                        ));
             }
         }
         return noteList;
@@ -115,6 +117,11 @@ public class MainActivity3 extends AppCompatActivity implements iSelectListener.
         intent.putExtra("title", note.getTitle());
         intent.putExtra("clock", note.getClock());
         startActivity(intent);
+
+    }
+
+    @Override
+    public void onItemCheckClick(List<Integer> ids,boolean isCheck) {
 
     }
 }

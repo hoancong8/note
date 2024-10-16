@@ -3,19 +3,80 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp"
-    android:theme="@style/Theme.MyApplication.AppWidgetContainer">
+    android:padding="16dp">
 
-
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ehhehehe"
+            android:textStyle="bold"
+            android:textSize="17dp"
+            android:id="@+id/tvdate"
+            />
+        <Button
+            android:id="@+id/bt"
+            android:layout_width="45dp"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:drawableLeft="@drawable/baseline_add_24"
+            android:padding="0dp"
+            android:paddingStart="10dp"
+            android:gravity="center"
+            android:elevation="0dp"
+            android:layout_alignParentRight="true"/>
+    </RelativeLayout>
 
     <TextView
-        android:id="@+id/textViewOutput"
+        android:id="@+id/tv1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Kết quả sẽ hiển thị ở đây"
-        android:paddingTop="16dp" />
-    <ListView
-        android:id="@+id/lv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:paddingTop="3dp"
+        android:visibility="gone"
+        android:drawableLeft="@drawable/baseline_task_alt_24"
+        android:gravity="center_vertical"
+        android:drawablePadding="2dp"/>
+    <TextView
+        android:id="@+id/tv2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kết quả sẽ hiển thị ở đây"
+        android:paddingTop="3dp"
+        android:visibility="gone"
+        android:drawableLeft="@drawable/baseline_task_alt_24"
+        android:gravity="center_vertical"
+        android:drawablePadding="2dp"/>
+    <TextView
+        android:id="@+id/tv3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kết quả sẽ hiển thị ở đây"
+        android:paddingTop="3dp"
+        android:visibility="gone"
+        android:drawableLeft="@drawable/baseline_task_alt_24"
+        android:gravity="center_vertical"
+        android:drawablePadding="2dp"/>
+    <TextView
+        android:id="@+id/tv4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Kết quả sẽ hiển thị ở đây"
+        android:paddingTop="3dp"
+        android:visibility="gone"
+        android:drawableLeft="@drawable/baseline_task_alt_24"
+        android:gravity="center_vertical"
+        android:drawablePadding="2dp"/>
+    <TextView
+        android:id="@+id/nottask"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="16dp"
+        android:text="ehheheh"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        />
 </LinearLayout>

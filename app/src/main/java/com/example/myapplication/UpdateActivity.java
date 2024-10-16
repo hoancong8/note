@@ -65,7 +65,7 @@ public class UpdateActivity extends AppCompatActivity {
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                myDbSqlite.updateNote(id,editTitle.getText().toString(),editdetail.getText().toString(),selcetday.getText().toString(),tvClock.getText().toString(),"0","0");
+                myDbSqlite.updateNote(id,editTitle.getText().toString(),editdetail.getText().toString(),selcetday.getText().toString(),tvClock.getText().toString(),0,"0");
             }
         });
     }

@@ -66,7 +66,7 @@ public class MyDbSqlite extends SQLiteOpenHelper {
     }
 
 
-    public void updateNote(int id, String title, String content, String date, String clock ,String status,String repeat) {
+    public void updateNote(int id, String title, String content, String date, String clock ,int status,String repeat) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues cv = new ContentValues();
         cv.put(COLUMN_TITLE,title);
@@ -75,6 +75,21 @@ public class MyDbSqlite extends SQLiteOpenHelper {
         cv.put(COLUMN_REPEAT,repeat);
         cv.put(COLUMN_DATE, date);
         cv.put(COLUMN_CLOCK,clock);
+        // Cập nhật Note với id tương ứng
+
+        long result = db.update(TABLE_NAME, cv, COLUMN_ID+"=?", new String[]{String.valueOf(id)});
+
+        if (result > 0) {
+            Toast.makeText(context, "cập nhật thành công", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Update failed", Toast.LENGTH_SHORT).show();
+        }
+    }
+    public void updateNoteStatus(int id,String status) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cv = new ContentValues();
+
+        cv.put(COLUMN_STATUS,status);
         // Cập nhật Note với id tương ứng
 
         long result = db.update(TABLE_NAME, cv, COLUMN_ID+"=?", new String[]{String.valueOf(id)});
@@ -95,10 +110,23 @@ public class MyDbSqlite extends SQLiteOpenHelper {
         }
         return cursor;
     }
+    public boolean deleteById(int id) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        // Xác định điều kiện để xóa
+        String whereClause = COLUMN_ID + " = ?";
+        String[] whereArgs = new String[] { String.valueOf(id) };
+
+        // Thực hiện xóa bản ghi
+        int deletedRows = db.delete(TABLE_NAME, whereClause, whereArgs);
+
+        db.close(); // Đóng cơ sở dữ liệu
+        return deletedRows > 0; // Trả về true nếu xóa thành công, false nếu không
+    }
+
     public Cursor sreachByMonthYear(String month,String year){
 //        String query = "SELECT * FROM "+TABLE_NAME+" WHERE strftime('%m', " + COLUMN_DATE + ") = " + "'" + month + "'" + " AND strftime('%Y', " + COLUMN_DATE + ") = "+"'" +year+"'";
         String query1 = "SELECT * FROM Note WHERE substr(dDate, 4, 2) = '" + month + "' AND substr(dDate, 7, 4) = '" + year + "';";
-
         SQLiteDatabase db= this.getWritableDatabase();
         Cursor cursor=null;
         if(db != null){
@@ -140,7 +168,24 @@ public class MyDbSqlite extends SQLiteOpenHelper {
         }
         return cursor;
     }
-
+//    public void deleteRecords(int[] ids) {
+//        SQLiteDatabase db = this.getWritableDatabase();
+//
+//        // Chuyển mảng int[] thành chuỗi
+//        StringBuilder idString = new StringBuilder();
+//        for (int i = 0; i < ids.length; i++) {
+//            idString.append(ids[i]);
+//            if (i < ids.length - 1) {
+//                idString.append(","); // Thêm dấu phẩy giữa các id
+//            }
+//        }
+//
+//        // Câu lệnh DELETE
+//        String query = "DELETE FROM " + TABLE_NAME + " WHERE " + COLUMN_ID + " IN (" + idString + ")";
+//        db.execSQL(query);
+//
+//        db.close(); // Đóng cơ sở dữ liệu
+//    }
 
 //    public void delete(){
 //        String query = "DELETE FROM " + TABLE_NAME ;

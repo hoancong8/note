@@ -20,17 +20,10 @@ import java.util.List;
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarViewHolder> {
     private final ArrayList<String> daysOfMonth;
     private List<Note> notesDay;
-//    private final OnItemListener onItemListener;
     private final LocalDate selectedDate;
     private String month, year;
     private iSelectListener.onItemClickListDay selectListener;
     ArrayList<String> list;
-//
-//    public CalendarAdapter(ArrayList<String> daysOfMonth, OnItemListener onItemListener) {
-//        this.daysOfMonth = daysOfMonth;
-//        this.onItemListener = onItemListener;
-//        selectedDate = LocalDate.now();
-//    }
 
     public CalendarAdapter(List<Note> notesDay,String year, String month, ArrayList<String> daysOfMonth,iSelectListener.onItemClickListDay selectListener) {
         this.year = year;

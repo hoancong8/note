@@ -36,7 +36,7 @@
                 android:resource="@xml/new_app_widget_info" />
         </receiver>
         <receiver
-            android:name=".CancelNotification"
+            android:name=".HandlelNotification"
             android:enabled="true"
             android:exported="true" />
 
@@ -65,16 +65,6 @@
             </intent-filter>
         </activity>
 
-        <service
-            android:name=".AlarmService"
-            android:enabled="true"
-            android:exported="false"
-            android:foregroundServiceType="mediaProjection"
-            tools:targetApi="34" />
-
-        <receiver
-            android:name=".AlarmReceiver"
-            android:exported="true" />
     </application>
 
 </manifest>

@@ -31,26 +31,36 @@
             android:orientation="horizontal">
 
             <TextView
+                android:gravity="center"
                 android:id="@+id/monthTV"
                 android:layout_width="0dp"
                 android:layout_weight="1.7"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:fontFamily="@font/roboto_regular"
                 android:paddingStart="0dp"
                 android:text="8"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="15sp"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="20sp"
+                android:autoSizeStepGranularity="2sp"/>
 
             <TextView
+                android:gravity="center"
                 android:id="@+id/YearTV"
                 android:layout_width="0dp"
                 android:layout_weight="1"
-                android:layout_height="wrap_content"
+                android:layout_height="40dp"
                 android:fontFamily="@font/roboto_regular"
                 android:text="2024"
                 android:layout_marginStart="5dp"
                 android:textColor="@color/black"
-                android:textSize="20sp" />
+                android:textSize="15sp"
+                android:autoSizeTextType="uniform"
+                android:autoSizeMinTextSize="12sp"
+                android:autoSizeMaxTextSize="20sp"
+                android:autoSizeStepGranularity="2sp"/>
             <View
                 android:layout_width="0dp"
                 android:layout_weight="4"
