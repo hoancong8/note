@@ -14,7 +14,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class NoteListAdapter2 extends RecyclerView.Adapter<NoteListAdapter2.ViewHolder> {
     private Context context;
@@ -22,6 +24,8 @@ public class NoteListAdapter2 extends RecyclerView.Adapter<NoteListAdapter2.View
     private iSelectListener.onItemClickListNote2 itemClickListNote2;
     private MyDbSqlite myDbSqlite;
     private List<Integer> ids;
+    private boolean isRadioButtonVisible = false;
+    private HashMap<Integer, Boolean> selectedIds = new HashMap<>();
     public NoteListAdapter2(Context context, List<Note> noteList, iSelectListener.onItemClickListNote2 itemClickListNote2) {
         this.context = context;
         this.noteList = noteList;
@@ -54,11 +58,52 @@ public class NoteListAdapter2 extends RecyclerView.Adapter<NoteListAdapter2.View
         }
         holder.title.setText(note.getTitle());
         holder.clock.setText(note.getClock());
+        holder.linearLayout.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                isRadioButtonVisible=true;
+                itemClickListNote2.onItemCheckClick(ids,isRadioButtonVisible);
+                notifyDataSetChanged();
+                return true;
+            }
+        });
+
+        if (selectedIds.containsKey(note.getId())) {
+            holder.radioButton.setChecked(selectedIds.get(note.getId()));
+        } else {
+            holder.radioButton.setChecked(false); // Mặc định nếu chưa được chọn
+        }
+        if (isRadioButtonVisible) {
+            holder.radioButton.setVisibility(View.VISIBLE);
+        } else {
+            holder.radioButton.setVisibility(View.GONE);
+
+        }
 
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                itemClickListNote2.onItemClickNoteList2(note);
+                if (isRadioButtonVisible){
+                    holder.checkBox.setEnabled(false);
+                    holder.radioButton.setChecked(!holder.radioButton.isChecked());
+                    if (holder.radioButton.isChecked()){
+                        selectedIds.put(note.getId(),true);
+                    }
+                    else {
+                        selectedIds.put(note.getId(),false);
+                    }
+                    ids.clear();
+                    for (Map.Entry<Integer, Boolean> entry : selectedIds.entrySet()) {
+                        if (entry.getValue()) { // Kiểm tra nếu giá trị là true
+                            ids.add(entry.getKey()); // Thêm khóa vào danh sách
+                        }
+                    }
+                    itemClickListNote2.onItemCheckClick(ids,isRadioButtonVisible);
+                }
+                else {
+                    holder.checkBox.setEnabled(true);
+                    itemClickListNote2.onItemClickNoteList2(note);
+                }
             }
         });
 
@@ -67,6 +112,8 @@ public class NoteListAdapter2 extends RecyclerView.Adapter<NoteListAdapter2.View
 //
 //        }
 
+
+        //check status note
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -92,12 +139,14 @@ public class NoteListAdapter2 extends RecyclerView.Adapter<NoteListAdapter2.View
         private TextView title,clock;
         private LinearLayout linearLayout;
         private CheckBox checkBox;
+        private CheckBox radioButton;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             checkBox = itemView.findViewById(R.id.checkb);
             linearLayout = itemView.findViewById(R.id.linearLayout);
             title = itemView.findViewById(R.id.title);
             clock = itemView.findViewById(R.id.clock);
+             radioButton = itemView.findViewById(R.id.checkDelete);
         }
     }
 }

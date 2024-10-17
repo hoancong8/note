@@ -58,7 +58,15 @@
             android:textStyle="bold"
             android:textSize="20dp"
             />
-
+        <Button
+            android:id="@+id/trash"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:background="#00BFBFBF"
+            android:drawableLeft="@drawable/trash"
+            android:visibility="gone"
+            />
     </Toolbar>
 
     <androidx.recyclerview.widget.RecyclerView

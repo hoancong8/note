@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -36,6 +38,8 @@ public class MainActivity3 extends AppCompatActivity implements iSelectListener.
     private ImageView imageView;
     private NoteListAdapter2 noteListAdapter2;
     private FloatingActionButton floatingActionButton;
+    private List<Integer> ids1;
+    private Button trash;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,6 +50,19 @@ public class MainActivity3 extends AppCompatActivity implements iSelectListener.
         emptyText = findViewById(R.id.emptyText);
         tvDay = findViewById(R.id.tvDay);
         floatingActionButton = findViewById(R.id.addNote);
+        ids1 = new ArrayList<>();
+        trash = findViewById(R.id.trash);
+
+        trash.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                for (int i:ids1) {
+                    myDbSqlite.deleteById(i);
+                }
+                checkRCV();
+                noteListAdapter2.notifyDataSetChanged();
+            }
+        });
 
         Intent intent = getIntent();
         String value1 = intent.getStringExtra("key1");
@@ -122,6 +139,12 @@ public class MainActivity3 extends AppCompatActivity implements iSelectListener.
 
     @Override
     public void onItemCheckClick(List<Integer> ids,boolean isCheck) {
-
+        ids1= ids;
+        for (int i:ids) {
+            Log.d("k456",String.valueOf(i));
+        }
+        if (isCheck){
+            trash.setVisibility(View.VISIBLE);
+        }
     }
 }

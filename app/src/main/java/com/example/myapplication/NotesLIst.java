@@ -42,6 +42,7 @@ public class NotesLIst extends AppCompatActivity implements iSelectListener.onIt
                 for (int i: ids1) {
                     Log.d("ids111","soos laf " + String.valueOf(i));
                     if ( myDbSqlite.deleteById(i)){
+//                        ids1.removeIf(n ->n==i);
                         handle();
                         notesListAdapter.notifyDataSetChanged();
                     }
@@ -145,11 +146,14 @@ public class NotesLIst extends AppCompatActivity implements iSelectListener.onIt
 
     @Override
     public void onItemCheckClick(List<Integer> ids,boolean isCheck) {
-        ids1 = ids;
-
+//        ids1.clear();
+        ids1=ids;
         for (int i:ids1) {
-            Log.d("k123",String.valueOf(i));
+            Log.d("k123","ids  "+String.valueOf(i));
         }
+//        for (int i:ids1) {
+//            Log.d("k123","ids1   "+String.valueOf(i));
+//        }
         if (isCheck){
             trash.setVisibility(View.VISIBLE);
         }
