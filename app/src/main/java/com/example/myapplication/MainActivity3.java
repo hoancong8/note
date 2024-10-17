@@ -40,6 +40,8 @@ public class MainActivity3 extends AppCompatActivity implements iSelectListener.
     private FloatingActionButton floatingActionButton;
     private List<Integer> ids1;
     private Button trash;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
