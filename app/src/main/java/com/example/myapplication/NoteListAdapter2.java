@@ -23,15 +23,12 @@ public class NoteListAdapter2 extends RecyclerView.Adapter<NoteListAdapter2.View
     private List<Note> noteList;
     private iSelectListener.onItemClickListNote2 itemClickListNote2;
     private MyDbSqlite myDbSqlite;
-    private List<Integer> ids;
     private boolean isRadioButtonVisible = false;
-    private HashMap<Integer, Boolean> selectedIds = new HashMap<>();
     public NoteListAdapter2(Context context, List<Note> noteList, iSelectListener.onItemClickListNote2 itemClickListNote2) {
         this.context = context;
         this.noteList = noteList;
         this.itemClickListNote2 = itemClickListNote2;
         myDbSqlite = new MyDbSqlite(context);
-        ids = new ArrayList<>();
     }
 
     public NoteListAdapter2(Context context, List<Note> noteList) {
@@ -62,17 +59,13 @@ public class NoteListAdapter2 extends RecyclerView.Adapter<NoteListAdapter2.View
             @Override
             public boolean onLongClick(View v) {
                 isRadioButtonVisible=true;
-                itemClickListNote2.onItemCheckClick(ids,isRadioButtonVisible);
+                itemClickListNote2.onItemCheckClick1(isRadioButtonVisible);
                 notifyDataSetChanged();
                 return true;
             }
         });
 
-        if (selectedIds.containsKey(note.getId())) {
-            holder.radioButton.setChecked(selectedIds.get(note.getId()));
-        } else {
-            holder.radioButton.setChecked(false); // Mặc định nếu chưa được chọn
-        }
+
         if (isRadioButtonVisible) {
             holder.radioButton.setVisibility(View.VISIBLE);
         } else {
@@ -86,19 +79,8 @@ public class NoteListAdapter2 extends RecyclerView.Adapter<NoteListAdapter2.View
                 if (isRadioButtonVisible){
                     holder.checkBox.setEnabled(false);
                     holder.radioButton.setChecked(!holder.radioButton.isChecked());
-                    if (holder.radioButton.isChecked()){
-                        selectedIds.put(note.getId(),true);
-                    }
-                    else {
-                        selectedIds.put(note.getId(),false);
-                    }
-                    ids.clear();
-                    for (Map.Entry<Integer, Boolean> entry : selectedIds.entrySet()) {
-                        if (entry.getValue()) { // Kiểm tra nếu giá trị là true
-                            ids.add(entry.getKey()); // Thêm khóa vào danh sách
-                        }
-                    }
-                    itemClickListNote2.onItemCheckClick(ids,isRadioButtonVisible);
+
+                    itemClickListNote2.onItemCheckClick(note.getId(),holder.radioButton.isChecked());
                 }
                 else {
                     holder.checkBox.setEnabled(true);
@@ -106,12 +88,6 @@ public class NoteListAdapter2 extends RecyclerView.Adapter<NoteListAdapter2.View
                 }
             }
         });
-
-//        if (note.getStatus1()==1){
-//            holder.title.setPaintFlags( holder.title.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-//
-//        }
-
 
         //check status note
         holder.checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

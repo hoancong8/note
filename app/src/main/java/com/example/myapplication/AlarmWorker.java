@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.PowerManager;
 import android.util.Log;
 
@@ -16,8 +17,12 @@ import androidx.work.WorkerParameters;
 
 public class AlarmWorker extends Worker {
     public static MediaPlayer mediaPlayer;
+    Uri soundUri = Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/" + R.raw.sena_alarm);
+
+    // Cấu hình các thuộc tính âm thanh
     public AlarmWorker(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
+//        soundUri = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.sena_alarm);
     }
 
     @NonNull

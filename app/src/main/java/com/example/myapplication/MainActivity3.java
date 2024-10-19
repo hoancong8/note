@@ -27,7 +27,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MainActivity3 extends AppCompatActivity implements iSelectListener.onItemClickListNote2 {
     private TextView emptyText,tvDay;
@@ -40,7 +42,7 @@ public class MainActivity3 extends AppCompatActivity implements iSelectListener.
     private FloatingActionButton floatingActionButton;
     private List<Integer> ids1;
     private Button trash;
-
+    private HashMap<Integer,Boolean> ids2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +56,19 @@ public class MainActivity3 extends AppCompatActivity implements iSelectListener.
         floatingActionButton = findViewById(R.id.addNote);
         ids1 = new ArrayList<>();
         trash = findViewById(R.id.trash);
+        ids2 = new HashMap<>();
+
 
         trash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i:ids1) {
-                    myDbSqlite.deleteById(i);
+
+                for (Map.Entry<Integer, Boolean> entry : ids2.entrySet()) {
+                    if (entry.getValue()) { // Kiểm tra nếu giá trị là true
+                        myDbSqlite.deleteById(entry.getKey());
+                    }
                 }
+
                 checkRCV();
                 noteListAdapter2.notifyDataSetChanged();
             }
@@ -140,13 +148,16 @@ public class MainActivity3 extends AppCompatActivity implements iSelectListener.
     }
 
     @Override
-    public void onItemCheckClick(List<Integer> ids,boolean isCheck) {
-        ids1= ids;
-        for (int i:ids) {
-            Log.d("k456",String.valueOf(i));
-        }
+    public void onItemCheckClick(int ids, boolean isCheck) {
+        Log.d("k1234",String.valueOf(ids)+ "  " + isCheck);
+        ids2.put(ids,isCheck);
+    }
+
+    @Override
+    public void onItemCheckClick1(boolean isCheck) {
         if (isCheck){
             trash.setVisibility(View.VISIBLE);
         }
     }
+
 }

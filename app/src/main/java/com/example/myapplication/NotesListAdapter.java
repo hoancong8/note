@@ -27,16 +27,14 @@ import java.util.Map;
         private iSelectListener.onItemClickListNote selectListener;
         private MyDbSqlite myDbSqlite;
         private boolean isRadioButtonVisible = false;
-        private List<Integer> ids;
-        private HashMap<Integer, Boolean> selectedIds = new HashMap<>();
 
-        public NotesListAdapter(Context context, List<Map.Entry<String, List<Note>>> noteList, iSelectListener.onItemClickListNote selectListener) {
+
+        public NotesListAdapter(Context context, List<Map.Entry<String, List<Note>>> noteList, iSelectListener.onItemClickListNote selectListener, boolean checkTrash) {
             this.context = context;
             this.noteList = noteList;
             this.selectListener = selectListener;
             myDbSqlite = new MyDbSqlite(context);
-            selectedIds = new HashMap<>();
-            ids = new ArrayList<>();
+            this.isRadioButtonVisible = checkTrash;
         }
 
         ViewGroup viewGroup;
@@ -72,6 +70,7 @@ import java.util.Map;
                     noteTitleTextView.setPaintFlags(noteTitleTextView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
                     checkBox.setChecked(true);
                 }
+
                 checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -89,11 +88,7 @@ import java.util.Map;
                         }
                     }
                 });
-                if (selectedIds.containsKey(n.getId())) {
-                    radioButton.setChecked(selectedIds.get(n.getId()));
-                } else {
-                    radioButton.setChecked(false); // Mặc định nếu chưa được chọn
-                }
+
                 // Thiết lập dữ liệu cho các TextView
                 noteTitleTextView.setText(n.getTitle());
                 clock.setText(n.getClock());
@@ -113,7 +108,7 @@ import java.util.Map;
                         isRadioButtonVisible = true;
     //                    radioButton.setChecked(true);
 
-                        selectListener.onItemCheckClick(ids,isRadioButtonVisible);
+                        selectListener.onItemCheckClick1(isRadioButtonVisible);
                         notifyDataSetChanged();
                         return true;
                     }
@@ -125,23 +120,7 @@ import java.util.Map;
                         if (isRadioButtonVisible){
                             checkBox.setEnabled(false);
                             radioButton.setChecked(!radioButton.isChecked());
-                            if (radioButton.isChecked()){
-                                selectedIds.put(n.getId(),true);
-//                                ids.add(n.getId());
-                            }
-                            else{
-//                                selectedIds.containsKey(n.getId());
-                                selectedIds.put(n.getId(),false);
-                            }
-                            ids.clear();
-                            for (Map.Entry<Integer, Boolean> entry : selectedIds.entrySet()) {
-                                if (entry.getValue()) { // Kiểm tra nếu giá trị là true
-
-                                    ids.add(entry.getKey()); // Thêm khóa vào danh sách
-                                }
-                            }
-
-                            selectListener.onItemCheckClick(ids,isRadioButtonVisible);
+                            selectListener.onItemCheckClick(n.getId(),radioButton.isChecked());
 
                         }
                         else {

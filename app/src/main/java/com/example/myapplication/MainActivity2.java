@@ -114,7 +114,6 @@ public class MainActivity2 extends AppCompatActivity {
             };
             new TimePickerDialog(MainActivity2.this, timeSetListener, hour, minute1, true).show();
         });
-
 //
 //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 //            CharSequence name = "High Priority Channel";

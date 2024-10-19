@@ -32,6 +32,9 @@ public class NotesLIst extends AppCompatActivity implements iSelectListener.onIt
     private Button trash;
     private ImageView imageView;
     private TextView textView;
+    private boolean checkTrash = false;
+    private HashMap<Integer, Boolean> ids2;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,35 +45,38 @@ public class NotesLIst extends AppCompatActivity implements iSelectListener.onIt
         textView = findViewById(R.id.emptyText);
         imageView = findViewById(R.id.imageView);
         recyclerView = findViewById(R.id.notelist);
+        ids2 = new HashMap<>();
+
 
         handle();
         trash.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (int i: ids1) {
-                    Log.d("ids111","soos laf " + String.valueOf(i));
-                    if ( myDbSqlite.deleteById(i)){
-//                        ids1.removeIf(n ->n==i);
-                        handle();
-                        notesListAdapter.notifyDataSetChanged();
+                for (Map.Entry<Integer, Boolean> entry : ids2.entrySet()) {
+                    if (entry.getValue()) { // Kiểm tra nếu giá trị là true
+                        myDbSqlite.deleteById(entry.getKey());
                     }
-
                 }
+                handle();
+                if (textView.getVisibility() == View.VISIBLE && imageView.getVisibility() == View.VISIBLE) {
+                    checkTrash = !checkTrash;
+                }
+                notesListAdapter.notifyDataSetChanged();
             }
         });
     }
-    public void handle(){
+
+    public void handle() {
         HashMap<String, List<Note>> noteMap = new HashMap<>();
         myDbSqlite = new MyDbSqlite(this);
         list.clear();
         getData();
-        if (list.isEmpty()){
+        if (list.isEmpty()) {
             textView.setVisibility(View.VISIBLE);
             imageView.setVisibility(View.VISIBLE);
             recyclerView.setVisibility(View.GONE);
 
-        }
-        else {
+        } else {
             textView.setVisibility(View.GONE);
             imageView.setVisibility(View.GONE);
             recyclerView.setVisibility(View.VISIBLE);
@@ -113,22 +119,17 @@ public class NotesLIst extends AppCompatActivity implements iSelectListener.onIt
             });
 
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            notesListAdapter = new NotesListAdapter(this, noteList, this);
+            notesListAdapter = new NotesListAdapter(this, noteList, this, checkTrash);
             recyclerView.setAdapter(notesListAdapter);
         }
 
-
-
     }
-
 
     public void getData() {
         Cursor cursor = myDbSqlite.readData(); // Gọi phương thức readData()
         if (cursor.getCount() == 0) {
-            Toast.makeText(this, "not data", Toast.LENGTH_SHORT).show();
-
+            Toast.makeText(this, "đéo có dữ liệu mờ xem", Toast.LENGTH_SHORT).show();
         } else {
-
             while (cursor.moveToNext()) {
                 list.add(new Note(cursor.getString(5),
                         cursor.getString(1),
@@ -140,12 +141,25 @@ public class NotesLIst extends AppCompatActivity implements iSelectListener.onIt
             }
         }
 
-//         Đóng Cursor sau khi sử dụng
-//        cursor.close();
     }
 
     public void back(View view) {
         onBackPressed();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!checkTrash) {
+            super.onBackPressed();
+        }
+        else {
+            trash.setVisibility(View.GONE);
+            checkTrash = false;
+            handle();
+        }
+
+
+
     }
 
     @Override
@@ -165,21 +179,19 @@ public class NotesLIst extends AppCompatActivity implements iSelectListener.onIt
         intent.putExtra("clock", note.getClock());
         startActivity(intent);
 
-//        Toast.makeText(this, String.valueOf(note.getId()), Toast.LENGTH_SHORT).show();
-
     }
 
     @Override
-    public void onItemCheckClick(List<Integer> ids,boolean isCheck) {
-//        ids1.clear();
-        ids1=ids;
-        for (int i:ids1) {
-            Log.d("k123","ids  "+String.valueOf(i));
-        }
-//        for (int i:ids1) {
-//            Log.d("k123","ids1   "+String.valueOf(i));
-//        }
-        if (isCheck){
+    public void onItemCheckClick(int ids, boolean isCheck) {
+        ids2.put(ids, isCheck);
+        Log.d("k123", "ids  " + String.valueOf(ids));
+        Log.d("k123", "ids  " + String.valueOf(isCheck));
+    }
+
+    @Override
+    public void onItemCheckClick1(boolean isCheck) {
+        checkTrash = isCheck;
+        if (isCheck) {
             trash.setVisibility(View.VISIBLE);
         }
 

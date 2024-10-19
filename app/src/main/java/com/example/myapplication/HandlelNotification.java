@@ -19,13 +19,16 @@ public class HandlelNotification extends BroadcastReceiver {
 
         Log.d("kkkkkk",action);
         if (action.equals("cancel")) {
+
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.cancel(1);
             AlarmWorker.mediaPlayer.stop();
             AlarmWorker.mediaPlayer.release();
             AlarmWorker.mediaPlayer = null;
-            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.cancel(1);
         }
         if (action.equals("done")) {
+            NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.cancel(1);
             Log.d("kkkkkk",String.valueOf(intent.getIntExtra("id",0)));
             changeStatus(context,intent);
         }

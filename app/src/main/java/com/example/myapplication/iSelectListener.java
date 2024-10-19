@@ -8,11 +8,13 @@ public interface iSelectListener {
     }
     interface onItemClickListNote{
         void onItemClickNoteList(Note note,String date);
-        void onItemCheckClick(List<Integer> ids,boolean isCheck);
+        void onItemCheckClick(int ids,boolean isCheck);
+        void onItemCheckClick1(boolean isCheck);
     }
     interface onItemClickListNote2{
         void onItemClickNoteList2(Note note);
-        void onItemCheckClick(List<Integer> ids,boolean isCheck);
+        void onItemCheckClick(int ids,boolean isCheck);
+        void onItemCheckClick1(boolean isCheck);
     }
 
 }

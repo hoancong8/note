@@ -10,6 +10,8 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
+import android.media.AudioAttributes;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -307,11 +309,17 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
             String channelId = "alarm_channel";
             String channelName = "Alarm Notifications";
             String channelDescription = "Channel for alarm notifications";
+            Uri soundUri = Uri.parse("android.resource://" + getApplicationContext().getPackageName() + "/" + R.raw.sena_alarm);
+
+            AudioAttributes audioAttributes = new AudioAttributes.Builder()
+                    .setUsage(AudioAttributes.USAGE_ALARM)
+                    .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                    .build();
             int importance = NotificationManager.IMPORTANCE_HIGH;
 
             NotificationChannel channel = new NotificationChannel(channelId, channelName, importance);
             channel.setDescription(channelDescription);
-
+            channel.setSound(soundUri, audioAttributes);  // Đặt âm thanh cho kênh
             // Tạo kênh thông báo
             NotificationManager notificationManager = getSystemService(NotificationManager.class);
             notificationManager.createNotificationChannel(channel);
