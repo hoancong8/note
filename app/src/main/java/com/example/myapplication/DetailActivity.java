@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +11,11 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -59,7 +65,7 @@ public class DetailActivity extends AppCompatActivity {
             intent1.putExtra("content", content);
             intent1.putExtra("title", title);
             intent1.putExtra("clock", clock);
-            startActivity(intent1);
+            activityResultLauncher.launch(intent1);
         });
 
     }
@@ -91,6 +97,22 @@ public class DetailActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
         dialog.show();
     }
+
+    private ActivityResultLauncher<Intent> activityResultLauncher = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            o -> {
+                if (o.getResultCode() == Activity.RESULT_OK){
+                    Intent data = o.getData();
+                    if (data != null) {
+                        String title = data.getStringExtra("title");
+                        String detail = data.getStringExtra("detail");
+
+                        tvTitle.setText(title);
+                        tvContent.setText(detail);
+
+                    }
+                }
+            });
 
     @Override
     protected void onRestart() {

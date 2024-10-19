@@ -12,10 +12,7 @@ public class HandlelNotification extends BroadcastReceiver {
     private MyDbSqlite myDbSqlite;
     @Override
     public void onReceive(Context context, Intent intent) {
-//        Toast.makeText(context, intent.getStringExtra("action"), Toast.LENGTH_SHORT).show();
         String action = intent.getStringExtra("action");
-//        Toast.makeText(context, action, Toast.LENGTH_SHORT).show();
-
 
         Log.d("kkkkkk",action);
         if (action.equals("cancel")) {

@@ -1,33 +1,26 @@
 package com.example.myapplication;
 
-import android.app.AlarmManager;
+
 import android.app.DatePickerDialog;
-import android.app.Notification;
-import android.app.NotificationChannel;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
+
 import android.app.TimePickerDialog;
 import android.appwidget.AppWidgetManager;
 import android.content.ComponentName;
 import android.content.Intent;
-import android.content.pm.PackageManager;
+
 
 import android.database.Cursor;
-import android.os.Build;
+
 import android.os.Bundle;
-import android.provider.Settings;
+
 import android.util.Log;
 import android.view.View;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.core.app.NotificationCompat;
-import androidx.core.app.NotificationManagerCompat;
 import androidx.work.Data;
 import androidx.work.OneTimeWorkRequest;
 import androidx.work.WorkManager;
@@ -35,7 +28,7 @@ import androidx.work.WorkManager;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
-import java.util.Date;
+
 import java.util.concurrent.TimeUnit;
 
 
@@ -51,8 +44,7 @@ public class MainActivity2 extends AppCompatActivity {
     private Switch aSwitch;
     private Note note;
     private int dd,mm,yyyy,h,m;
-    private AlarmManager alarmManager;
-    private PendingIntent pendingIntent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,14 +61,6 @@ public class MainActivity2 extends AppCompatActivity {
         date1= localDate.format(formatter1);
         aSwitch = findViewById(R.id.switch1);
 
-        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
-//        if (!AlarmService.isService){
-//            Intent serviceIntent = new Intent(this, AlarmService.class);
-//            serviceIntent.putExtra("title","0");
-////            startService(serviceIntent);
-//            startForegroundService(serviceIntent);
-//        }
-
 
 
 
@@ -90,17 +74,14 @@ public class MainActivity2 extends AppCompatActivity {
         clock.setText(String.valueOf(calendar.get(Calendar.HOUR_OF_DAY) + ":"+String.valueOf(calendar.get(Calendar.MINUTE))));
 
 
-        aSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked){
-                    clock.setText("0");
-                    clock.setVisibility(View.GONE);
-                }
-                else {
-                    clock.setText(String.valueOf(calendar.get(Calendar.HOUR_OF_DAY) + ":"+String.valueOf(calendar.get(Calendar.MINUTE))));
-                    clock.setVisibility(View.VISIBLE);
-                }
+        aSwitch.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked){
+                clock.setText("0");
+                clock.setVisibility(View.GONE);
+            }
+            else {
+                clock.setText(String.valueOf(calendar.get(Calendar.HOUR_OF_DAY) + ":"+String.valueOf(calendar.get(Calendar.MINUTE))));
+                clock.setVisibility(View.VISIBLE);
             }
         });
 
@@ -114,29 +95,17 @@ public class MainActivity2 extends AppCompatActivity {
             };
             new TimePickerDialog(MainActivity2.this, timeSetListener, hour, minute1, true).show();
         });
-//
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            CharSequence name = "High Priority Channel";
-//            String description = "This channel is used for important notifications";
-//            int importance = NotificationManager.IMPORTANCE_HIGH; // Đặt mức độ quan trọng cao
-//            NotificationChannel channel = new NotificationChannel("HIGH_PRIORITY_CHANNEL_ID", name, importance);
-//            channel.setDescription(description);
-//            NotificationManager notificationManager = getSystemService(NotificationManager.class);
-//            notificationManager.createNotificationChannel(channel);
-//        }
-
     }
+
+
+
     public void back(View view){
         onBackPressed();
-//        Intent intent = new Intent(this,MainActivity.class);
-//        startActivity(intent);
-//        overridePendingTransition(R.anim.slide_in_right,R.anim.slide_in_left);
     }
+
     public void calendardialog(View view){
         LocalDate localDate1 = LocalDate.now();
         DatePickerDialog pickerDialog = new DatePickerDialog(this,(view1, year, month, dayOfMonth) -> {
-//            Calendar selectedDate = Calendar.getInstance();
-//            selectedDate.set(year, month, dayOfMonth);
             yyyy = year;
             mm = month;
             dd = dayOfMonth;
@@ -148,10 +117,12 @@ public class MainActivity2 extends AppCompatActivity {
         pickerDialog.show();
     }
 
+
+
+    //save
     public void save(View view) {
         myDbSqlite = new MyDbSqlite(MainActivity2.this);
         if (date1.isEmpty() || date1.equals("")){
-//            myDbSqlite.addNote(editTitle.getText().toString().trim(), detailnote.getText().toString().trim(), 0, 0, "0","0");
             Toast.makeText(this, "khoong cos dux lieu", Toast.LENGTH_SHORT).show();
         }
         else {
@@ -159,7 +130,8 @@ public class MainActivity2 extends AppCompatActivity {
             updateUI = true;
             Log.d("LOG00000",String.valueOf(h+" "+m+" "+dd+" "+mm));
             scheduleAlarmWork(yyyy,mm,dd,h,m,getDataRecent().getId());
-//            scheduleAlarmWork();
+
+
             //update widget
             Intent intent = new Intent(this, NewAppWidget.class);
             intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
@@ -167,13 +139,14 @@ public class MainActivity2 extends AppCompatActivity {
             int[] ids = AppWidgetManager.getInstance(getApplication())
                     .getAppWidgetIds(new ComponentName(getApplication(), NewAppWidget.class));
             intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
-            // Gửi Broadcast
+            // send Broadcast
             sendBroadcast(intent);
         }
     }
 
 
 
+    //get note final list
     public Note getDataRecent(){
         Cursor cursor = myDbSqlite.dataRecent();
         if (cursor.getCount() == 0) {
@@ -191,6 +164,9 @@ public class MainActivity2 extends AppCompatActivity {
         return note;
     }
 
+
+
+    //set alarm
     private void scheduleAlarmWork(int yyyy, int mm, int dd, int h, int m, int id) {
         Calendar calendar = Calendar.getInstance();
 
@@ -204,6 +180,7 @@ public class MainActivity2 extends AppCompatActivity {
         calendar.set(Calendar.MINUTE, m); // m lấy từ TimePicker
         calendar.set(Calendar.SECOND, 0);
         long time = calendar.getTimeInMillis()-System.currentTimeMillis();
+
 
         Data data = new Data.Builder()
                 .putInt("id",id).putString("title",getDataRecent().getTitle())

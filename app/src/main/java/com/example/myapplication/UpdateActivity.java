@@ -69,11 +69,19 @@ public class UpdateActivity extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent = new Intent();
+        intent.putExtra("title",editTitle.getText().toString());
+        intent.putExtra("detail",editdetail.getText().toString());
+        setResult(RESULT_OK,intent);
+        super.onBackPressed();
+    }
+
     public void calendardialog(View view){
         LocalDate localDate1 = LocalDate.now();
         DatePickerDialog pickerDialog = new DatePickerDialog(this,(view1, year, month, dayOfMonth) -> {
-//            Calendar selectedDate = Calendar.getInstance();
-//            selectedDate.set(year, month, dayOfMonth);
             localDate = LocalDate.of(year,month+1,dayOfMonth);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("E,dd/MM/yyyy");
             DateTimeFormatter formatter1 = DateTimeFormatter.ofPattern("dd/MM/yyyy");
