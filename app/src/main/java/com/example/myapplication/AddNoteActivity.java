@@ -32,7 +32,7 @@ import java.util.Calendar;
 import java.util.concurrent.TimeUnit;
 
 
-public class MainActivity2 extends AppCompatActivity {
+public class AddNoteActivity extends AppCompatActivity {
     private EditText editTitle, detailnote;
     private MyDbSqlite myDbSqlite;
     private TextView date,clock;
@@ -48,7 +48,7 @@ public class MainActivity2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main2);
+        setContentView(R.layout.activity_add_note);
         editTitle = findViewById(R.id.editTitle);
         detailnote = findViewById(R.id.detailnote);
         clock = findViewById(R.id.clock);
@@ -93,7 +93,7 @@ public class MainActivity2 extends AppCompatActivity {
                 h=hourOfDay;
                 m=minute;
             };
-            new TimePickerDialog(MainActivity2.this, timeSetListener, hour, minute1, true).show();
+            new TimePickerDialog(AddNoteActivity.this, timeSetListener, hour, minute1, true).show();
         });
     }
 
@@ -121,7 +121,7 @@ public class MainActivity2 extends AppCompatActivity {
 
     //save
     public void save(View view) {
-        myDbSqlite = new MyDbSqlite(MainActivity2.this);
+        myDbSqlite = new MyDbSqlite(AddNoteActivity.this);
         if (date1.isEmpty() || date1.equals("")){
             Toast.makeText(this, "khoong cos dux lieu", Toast.LENGTH_SHORT).show();
         }

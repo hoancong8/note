@@ -9,19 +9,15 @@ import android.view.ViewGroup;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-    public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.ViewHolder> {
+    public class AllNotesListAdapter extends RecyclerView.Adapter<AllNotesListAdapter.ViewHolder> {
         private Context context;
         private List<Map.Entry<String, List<Note>>> noteList;
         private iSelectListener.onItemClickListNote selectListener;
@@ -29,7 +25,7 @@ import java.util.Map;
         private boolean isRadioButtonVisible = false;
 
 
-        public NotesListAdapter(Context context, List<Map.Entry<String, List<Note>>> noteList, iSelectListener.onItemClickListNote selectListener, boolean checkTrash) {
+        public AllNotesListAdapter(Context context, List<Map.Entry<String, List<Note>>> noteList, iSelectListener.onItemClickListNote selectListener, boolean checkTrash) {
             this.context = context;
             this.noteList = noteList;
             this.selectListener = selectListener;
@@ -41,14 +37,14 @@ import java.util.Map;
 
         @NonNull
         @Override
-        public NotesListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public AllNotesListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(context).inflate(R.layout.item_note, parent, false);
             viewGroup = parent;
             return new ViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(@NonNull NotesListAdapter.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull AllNotesListAdapter.ViewHolder holder, int position) {
             holder.linearLayout.removeAllViews();
             Map.Entry<String, List<Note>> entry = noteList.get(position);
             List<Note> notes = entry.getValue();

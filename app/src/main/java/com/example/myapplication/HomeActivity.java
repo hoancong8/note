@@ -45,7 +45,7 @@ import java.util.Calendar;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity implements iSelectListener.onItemClickListDay {
+public class HomeActivity extends AppCompatActivity implements iSelectListener.onItemClickListDay {
     private TextView monthText, yearText;
     private RecyclerView calendarRecyclerView;
     private LocalDate selectedDate;
@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_home);
         linearLayout1 = findViewById(R.id.standbyScreen);
         linearLayout1.setVisibility(View.VISIBLE);
         new Handler().postDelayed(() -> {
@@ -151,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
             selectedDate = LocalDate.of(selectedYear, selectedMonth, 1);
             daysInMonthArray(selectedDate);
             setMonthView();
-            Toast.makeText(MainActivity.this, "Selected: " + selectedMonth + "/" + selectedYear, Toast.LENGTH_SHORT).show();
+            Toast.makeText(HomeActivity.this, "Selected: " + selectedMonth + "/" + selectedYear, Toast.LENGTH_SHORT).show();
             dialog.dismiss();
         });
         dialog.show();
@@ -281,12 +281,12 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
     }
 
     public void allNote(View view) {
-        Intent intent = new Intent(MainActivity.this, NotesLIst.class);
+        Intent intent = new Intent(HomeActivity.this, AllNotesLIst.class);
         startActivity(intent);
     }
 
     public void clickAddNote(View view) {
-        Intent intent = new Intent(MainActivity.this, MainActivity2.class);
+        Intent intent = new Intent(HomeActivity.this, AddNoteActivity.class);
         startActivity(intent);
 
     }
@@ -302,7 +302,7 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
     public void onItemClicked(int position, String dayText) {
 //        Toast.makeText(this, "hihihihihih" +dayText, Toast.LENGTH_SHORT).show();
         if (!dayText.equals("")) {
-            Intent intent = new Intent(MainActivity.this, MainActivity3.class);
+            Intent intent = new Intent(HomeActivity.this, NoteListActivity.class);
             intent.putExtra("key1", dayText);
             intent.putExtra("key2", selectedDate.getMonthValue());
             intent.putExtra("key3", Integer.parseInt(yearFromDate(selectedDate)));
@@ -310,7 +310,6 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
             startActivity(intent);
         }
     }
-
 
     private void createNotificationChannel() {
         // Kiểm tra nếu phiên bản Android là Oreo hoặc mới hơn

@@ -47,16 +47,16 @@
             android:name=".EditNoteActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity3"
+            android:name=".NoteListActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity2"
+            android:name=".AddNoteActivity"
             android:exported="false" />
         <activity
-            android:name=".NotesLIst"
+            android:name=".AllNotesLIst"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".HomeActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

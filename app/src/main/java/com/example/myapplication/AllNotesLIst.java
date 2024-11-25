@@ -22,11 +22,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class NotesLIst extends AppCompatActivity implements iSelectListener.onItemClickListNote {
+public class AllNotesLIst extends AppCompatActivity implements iSelectListener.onItemClickListNote {
     private RecyclerView recyclerView;
     private MyDbSqlite myDbSqlite;
     private List<Note> list;
-    private NotesListAdapter notesListAdapter;
+    private AllNotesListAdapter notesListAdapter;
     private List<Integer> ids1;
     private boolean isCheck = false;
     private Button trash;
@@ -38,7 +38,7 @@ public class NotesLIst extends AppCompatActivity implements iSelectListener.onIt
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.noteslist);
+        setContentView(R.layout.allnoteslist);
         list = new ArrayList<>();
         ids1 = new ArrayList<>();
         trash = findViewById(R.id.trash);
@@ -119,7 +119,7 @@ public class NotesLIst extends AppCompatActivity implements iSelectListener.onIt
             });
 
             recyclerView.setLayoutManager(new LinearLayoutManager(this));
-            notesListAdapter = new NotesListAdapter(this, noteList, this, checkTrash);
+            notesListAdapter = new AllNotesListAdapter(this, noteList, this, checkTrash);
             recyclerView.setAdapter(notesListAdapter);
         }
 

@@ -1,24 +1,15 @@
 package com.example.myapplication;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,7 +22,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainActivity3 extends AppCompatActivity implements iSelectListener.onItemClickListNote2 {
+public class NoteListActivity extends AppCompatActivity implements iSelectListener.onItemClickListNote2 {
     private TextView emptyText,tvDay;
     private RecyclerView recyclerView;
     private MyDbSqlite myDbSqlite;
@@ -47,7 +38,7 @@ public class MainActivity3 extends AppCompatActivity implements iSelectListener.
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main3);
+        setContentView(R.layout.activity_note_list);
         myDbSqlite = new MyDbSqlite(this);
         recyclerView = findViewById(R.id.recycler);
         imageView = findViewById(R.id.imageView);
@@ -85,7 +76,7 @@ public class MainActivity3 extends AppCompatActivity implements iSelectListener.
         floatingActionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent1 = new Intent(MainActivity3.this,MainActivity2.class);
+                Intent intent1 = new Intent(NoteListActivity.this, AddNoteActivity.class);
                 startActivity(intent1);
             }
         });

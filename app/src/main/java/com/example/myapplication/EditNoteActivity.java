@@ -29,7 +29,7 @@ public class EditNoteActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_update);
+        setContentView(R.layout.activity_edit_note);
         Intent intent = getIntent();
         id = intent.getIntExtra("id",0);
         title = intent.getStringExtra("title");
