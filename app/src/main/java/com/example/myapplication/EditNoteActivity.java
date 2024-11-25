@@ -10,17 +10,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Calendar;
 
-public class UpdateActivity extends AppCompatActivity {
+public class EditNoteActivity extends AppCompatActivity {
     private String title,content,date,clock;
     private int id;
     private EditText editTitle,editdetail;
@@ -55,7 +51,7 @@ public class UpdateActivity extends AppCompatActivity {
             TimePickerDialog.OnTimeSetListener timeSetListener = (view, hourOfDay, minute) -> {
                 tvClock.setText(hourOfDay+":"+minute);
             };
-            new TimePickerDialog(UpdateActivity.this, timeSetListener, hour, minute1, true).show();
+            new TimePickerDialog(EditNoteActivity.this, timeSetListener, hour, minute1, true).show();
         });
         editTitle.setText(title);
         editdetail.setText(content);

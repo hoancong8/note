@@ -102,6 +102,8 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
             }
         });
     }
+
+
     public List<Note> getData() {
         list = new ArrayList<>();
         Cursor cursor = myDbSqlite.sreachByMonthYear(monthFromDate(selectedDate),yearFromDate(selectedDate)); // Gọi phương thức readData()
@@ -119,6 +121,9 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
 //         Đóng Cursor sau khi sử dụng
 //        cursor.close();
     }
+
+
+
     private void showMonthYearPickerDialog() {
         final Dialog dialog = new Dialog(this);
         dialog.setContentView(R.layout.dialog_calendar);
@@ -152,6 +157,9 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
         dialog.show();
 
     }
+
+
+
     private void initWidgets() {
         calendarRecyclerView = findViewById(R.id.calendarRecyclerView);
         monthText = findViewById(R.id.monthTV);
@@ -203,7 +211,7 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
         });
     }
 
-
+    //danh sach ngay trong thang
     private ArrayList<String> daysInMonthArray(LocalDate date) {
         ArrayList<String> daysInMonthArray = new ArrayList<>();
         YearMonth yearMonth = YearMonth.from(date);
@@ -288,7 +296,7 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
         super.onRestart();
         setMonthView();
     }
-    // Định nghĩa ActivityResultLauncher trong Activity A
+
 
     @Override
     public void onItemClicked(int position, String dayText) {
@@ -302,6 +310,8 @@ public class MainActivity extends AppCompatActivity implements iSelectListener.o
             startActivity(intent);
         }
     }
+
+
     private void createNotificationChannel() {
         // Kiểm tra nếu phiên bản Android là Oreo hoặc mới hơn
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

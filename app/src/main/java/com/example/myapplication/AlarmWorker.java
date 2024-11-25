@@ -24,7 +24,6 @@ public class AlarmWorker extends Worker {
         super(context, workerParams);
 //        soundUri = Uri.parse("android.resource://" + context.getPackageName() + "/" + R.raw.sena_alarm);
     }
-
     @NonNull
     @Override
     public Result doWork() {
@@ -89,7 +88,6 @@ public class AlarmWorker extends Worker {
 
         Intent handleEvent = new Intent(context, HandlelNotification.class);
         Intent handleEvent1 = new Intent(context, HandlelNotification.class);
-
 
         handleEvent.setAction("cancel_alarm_action");
         handleEvent.putExtra("action", "cancel");

@@ -5,17 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -59,7 +54,7 @@ public class DetailActivity extends AppCompatActivity {
         });
 
         btEdittext.setOnClickListener(v -> {
-            Intent intent1 = new Intent(DetailActivity.this,UpdateActivity.class);
+            Intent intent1 = new Intent(DetailActivity.this, EditNoteActivity.class);
             intent1.putExtra("id",id);
             intent1.putExtra("date", date);
             intent1.putExtra("content", content);

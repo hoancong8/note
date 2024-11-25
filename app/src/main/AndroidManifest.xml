@@ -44,7 +44,7 @@
             android:name=".DetailActivity"
             android:exported="false" />
         <activity
-            android:name=".UpdateActivity"
+            android:name=".EditNoteActivity"
             android:exported="false" />
         <activity
             android:name=".MainActivity3"
