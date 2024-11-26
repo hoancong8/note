@@ -36,7 +36,7 @@ public class AlarmWorker extends Worker {
                         | PowerManager.ACQUIRE_CAUSES_WAKEUP
                         | PowerManager.ON_AFTER_RELEASE,
                 "MyApp::AlarmWakeLock");
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sena_alarm); // Thay R.raw.alarm_sound bằng âm thanh của bạn
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.sms); // Thay R.raw.alarm_sound bằng âm thanh của bạn
         mediaPlayer.setLooping(true); // lặp lại âm thanh
         if (!mediaPlayer.isPlaying()){
             mediaPlayer.start();
